@@ -5,8 +5,6 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     loading: null,
-    errorMessage: null,
-    successMessage: null,
     currentUser: null,
   },
   reducers: {
@@ -14,22 +12,29 @@ const userSlice = createSlice({
       user.loading = true;
     },
     userRequestFailed: (user, action) => {
-      user.errorMessage = action.payload;
       user.loading = false;
     },
-    userReceived: (user, action) => {
+    currentUserReceived: (user, action) => {
       user.currentUser = action.payload;
       user.loading = false;
     },
     userLoggedOut: (user, action) => {
+      localStorage.removeItem("persist:root");
       user.currentUser = null;
-      user.errorMessage = null;
+    },
+    userRegistered: (user, action) => {
+      user.loading = false;
     },
   },
 });
 
-export const { userRequested, userRequestFailed, userReceived, userLoggedOut } =
-  userSlice.actions;
+export const {
+  userRequested,
+  userRequestFailed,
+  currentUserReceived,
+  userLoggedOut,
+  userRegistered,
+} = userSlice.actions;
 export default userSlice.reducer;
 
 export const getUser = createSelector(

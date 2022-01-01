@@ -1,41 +1,35 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { Notification } from ".";
 import { getUser } from "../store/user";
 
 import NavLInkItem from "./NavLInkItem";
 import { AvatarMenu } from ".";
+import { useLocation } from "react-router-dom";
 
-const notifications = [
-  {
-    id: 1,
-    from: "System Notification",
-    message: "Admin Posted a new IPCR evaluation",
-    time: 20111031,
-  },
-  {
-    id: 2,
-    from: "System Notification",
-    message: "Admin Posted a new IPCR evaluation",
-    time: Date.now(),
-  },
-  {
-    id: 3,
-    from: "System Notification",
-    message:
-      "Admin Posted a new IPCR evaluation this is just a place holder text",
-    time: Date.now(),
-  },
+const navItems = [
+  { to: "/dashboard", title: "Home" },
+  { to: "/dashboard/past-evaluations", title: "Past Evaluation" },
 ];
 
 export default function NavBar() {
   const user = useSelector(getUser);
+  const location = useLocation();
   return (
     <NavContainer>
       <NavLInkItem to="/">E-IPCR</NavLInkItem>
       <MenuContainer>
-        <Notification notifCount={4} notifications={notifications} />
+        <NavLinks>
+          {navItems.map((item) => (
+            <NavLInkItem
+              key={item.title}
+              to={item.to}
+              active={item.to === location.pathname}
+            >
+              {item.title}
+            </NavLInkItem>
+          ))}
+        </NavLinks>
         <AvatarMenu user={user.currentUser} />
       </MenuContainer>
     </NavContainer>
@@ -63,5 +57,14 @@ const MenuContainer = styled.div`
 
   > * {
     margin: 0 0.2rem;
+  }
+`;
+
+const NavLinks = styled.div`
+  display: flex;
+  margin-right: 0.5rem;
+
+  > * {
+    margin: 0 0.5rem;
   }
 `;

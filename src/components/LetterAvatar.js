@@ -4,7 +4,7 @@ import getLetterAvatarBg from "../utils/getLetterAvatarBg";
 
 export default function LetterAvatar({ user, size }) {
   return (
-    <AvatarContainer size={size} dept={user?.dept}>
+    <AvatarContainer size={size} college={user?.college?.acronym}>
       <Letter size={size}>{user?.name?.firstName?.trim()[0]} </Letter>
     </AvatarContainer>
   );
@@ -15,7 +15,7 @@ const AvatarContainer = styled.div`
   place-items: center;
   width: ${(props) => `${props.size}px`};
   height: ${(props) => `${props.size}px`};
-  background: ${(props) => getLetterAvatarBg(props.dept)};
+  background: ${(props) => getLetterAvatarBg(props.college)};
   border-radius: 50%;
   cursor: pointer;
 `;

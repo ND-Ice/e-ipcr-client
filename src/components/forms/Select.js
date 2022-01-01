@@ -4,9 +4,10 @@ import { useFormikContext } from "formik";
 
 export default function Select(props) {
   const { menuItems, name, title, loading, ...otherProps } = props;
-  const { setFieldTouched, handleChange, touched, errors } = useFormikContext();
+  const { setFieldTouched, handleChange, touched, errors, values } =
+    useFormikContext();
   return (
-    <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Group className="mb-2" controlId="formBasicEmail">
       <Form.Label>{title}</Form.Label>
       <Form.Select
         placeholder={title}
@@ -14,6 +15,7 @@ export default function Select(props) {
         onBlur={() => setFieldTouched(name)}
         onChange={handleChange(name)}
         disabled={loading}
+        value={values[name]}
         isValid={touched[name] && !errors[name]}
         isInvalid={!touched[name] || !errors[name] ? false : true}
         {...otherProps}
@@ -21,7 +23,7 @@ export default function Select(props) {
         <option>Select option</option>
         {menuItems?.map((menuItem) => (
           <option key={menuItem.value} value={menuItem?.value}>
-            {menuItem?.title}
+            {menuItem?.value}
           </option>
         ))}
       </Form.Select>

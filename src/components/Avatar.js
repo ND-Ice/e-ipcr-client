@@ -4,7 +4,7 @@ import getLetterAvatarBg from "../utils/getLetterAvatarBg";
 
 export default function Avatar({ user, onError, size }) {
   return (
-    <AvatarContainer dept={user?.dept} size={size}>
+    <AvatarContainer college={user?.college.acronym} size={size}>
       <UserAvatar src={user?.image?.current} onError={onError} />
     </AvatarContainer>
   );
@@ -18,7 +18,7 @@ const AvatarContainer = styled.div`
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  border: 4px solid ${(props) => getLetterAvatarBg(props.dept)};
+  border: 4px solid ${(props) => getLetterAvatarBg(props.college)};
 `;
 
 const UserAvatar = styled.img`

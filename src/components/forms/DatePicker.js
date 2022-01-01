@@ -7,7 +7,7 @@ export default function DatePicker(props) {
   const { setFieldTouched, handleChange, touched, errors, values } =
     useFormikContext();
   return (
-    <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Group className="mb-2" controlId="formBasicEmail">
       <Form.Label>{title}</Form.Label>
       <Form.Control
         type="date"

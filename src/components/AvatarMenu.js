@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useHistory } from "react-router";
 import { Avatar, LetterAvatar } from ".";
 import { useDispatch } from "react-redux";
 import { userLoggedOut } from "../store/user";
@@ -17,9 +17,9 @@ export default function AvatarMenu({ user }) {
       <Container>
         <div onClick={() => setIsToggle(!isToggle)}>
           {IsImageError || !user?.image?.current ? (
-            <LetterAvatar size={40} user={user} />
+            <LetterAvatar size={35} user={user} />
           ) : (
-            <Avatar user={user} size={40} onError={() => setImageError(true)} />
+            <Avatar user={user} size={35} onError={() => setImageError(true)} />
           )}
         </div>
         <DropDownItems active={isToggle}>

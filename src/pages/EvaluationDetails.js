@@ -1,114 +1,145 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { FiArrowLeft } from "react-icons/fi";
 import moment from "moment";
-import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { FiCalendar } from "react-icons/fi";
+import { Alert, Button } from "react-bootstrap";
+import { CustomModal } from "../components";
 
-import concatenate from "../utils/concatenate";
-import { Icons } from "../components";
+import {
+  evaluationsRequested,
+  evaluationsRequestFailed,
+  evaluationPreviewed,
+  getEvaluations,
+} from "../store/evaluations";
+import { getUser } from "../store/user";
+
+import evaluationsApi from "../api/evaluations";
+import responseApi from "../api/response";
+import ViewResponse from "../components/evaluation/ViewResponse";
+import { editFunctions, getCreateEvaluation } from "../store/createEvaluation";
 
 export default function EvaluationDetails({ match, history }) {
   const id = match.params.id;
-  const handleGoBack = () => history.goBack();
+  const dispatch = useDispatch();
+  const evaluations = useSelector(getEvaluations);
+  const user = useSelector(getUser);
+  const evaluation = evaluations.preview;
+  const [evaluationResponse, setEvaluatonResponse] = useState(null);
+  const [showYourResponse, setShowYourResponse] = useState(false);
+
+  const yourResponse = evaluationResponse?.filter(
+    (response) => response?.userId === user?.currentUser?._id
+  )[0];
+
+  useEffect(() => {
+    fetchEvaluations();
+    fetchEvaluationResponse();
+  }, []);
+
+  const fetchEvaluations = async () => {
+    try {
+      dispatch(evaluationsRequested());
+      const evaluation = await evaluationsApi.getEvaluationsDetails(id);
+      return dispatch(evaluationPreviewed(evaluation.data));
+    } catch (error) {
+      return dispatch(evaluationsRequestFailed(error));
+    }
+  };
+
+  const fetchEvaluationResponse = async () => {
+    try {
+      const response = await responseApi.getEvaluationResponse(id);
+      return setEvaluatonResponse(response.data);
+    } catch (error) {
+      return console.log(error);
+    }
+  };
+
+  const handleUnSubmit = async () => {
+    try {
+      dispatch(
+        editFunctions({
+          coreFunctions: yourResponse?.coreFunctions,
+          supportFunctions: yourResponse?.supportFunctions,
+        })
+      );
+      await responseApi.unsubmitResponse(yourResponse._id);
+      return history.push(`/dashboard/create-response/${evaluation._id}`);
+    } catch (error) {
+      return console.log(error);
+    }
+  };
 
   return (
     <AppContainer>
-      <Header bg="https://www.gstatic.com/classroom/themes/img_backtoschool.jpg">
-        <HeadContainer>
-          <Icons
-            icon={FiArrowLeft}
-            size={40}
-            iconColor="#ffffff"
-            backgroundColor="transparent"
-            onClick={handleGoBack}
-          />
-          <Duedate>Due : {moment(Date.now()).calendar()}</Duedate>
-        </HeadContainer>
-        <Heading>{concatenate(`2021-2022 IPCR Evaluation  ${id}`, 45)}</Heading>
-        <Department>CAS</Department>
-      </Header>
-      <Body>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam
-          voluptatem itaque ipsa iusto eum sit impedit accusantium velit
-          eligendi modi.
-        </p>
+      {/* title */}
+      <Title>
+        Individual Performance Commitment Review (IPCR){" "}
+        <strong>
+          {evaluation?.targetYear}-{evaluation?.targetYear - 1}
+        </strong>
+      </Title>
+
+      {/* due date */}
+      <DueDate>
+        <FiCalendar className="icon" /> {moment(evaluation?.due).format("LL")}
+      </DueDate>
+
+      {yourResponse && (
+        <Alert className="mt-4" variant="success">
+          We received your response.
+        </Alert>
+      )}
+      {yourResponse && (
+        <Button onClick={() => setShowYourResponse(true)}>View Response</Button>
+      )}
+
+      {!yourResponse && (
         <Button
+          className="mt-4"
           onClick={() => history.push(`/dashboard/create-response/${id}`)}
-          variant="primary"
-          className="mt-3"
         >
-          Create Response
+          Create
         </Button>
-      </Body>
+      )}
+
+      {yourResponse && (
+        <Button className="ms-2" onClick={handleUnSubmit}>
+          Unsubmit
+        </Button>
+      )}
+      <CustomModal
+        heading={`Individual Performance Commitment Review (IPCR) ${
+          evaluation?.targetYear
+        }-${evaluation?.targetYear - 1}`}
+        show={showYourResponse}
+        fullscreen={true}
+        onHide={() => setShowYourResponse(false)}
+      >
+        <ViewResponse response={yourResponse} />
+      </CustomModal>
     </AppContainer>
   );
 }
 
-const AppContainer = styled.section`
+const AppContainer = styled.div`
   padding: 1rem;
 
-  @media (min-width: 768px) {
-    padding: 1rem 5rem;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 1rem 15rem;
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    padding: 2rem 10rem;
   }
 `;
 
-const Header = styled.div`
-  height: 200px;
-  background: url(${({ bg }) => bg});
-  background-size: cover;
-  background-position: center;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  position: relative;
-
-  @media (min-width: 768px) {
-    height: 300px;
-  }
+const Title = styled.h4`
+  max-width: 40ch;
 `;
 
-const HeadContainer = styled.div`
-  padding: 1rem;
+const DueDate = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-`;
 
-const Duedate = styled.span`
-  display: inline-block;
-  color: #f2f2f2;
-`;
-
-const Department = styled.span`
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: #ffffff;
-`;
-
-const Heading = styled.h1`
-  position: absolute;
-  color: #ffffff;
-  bottom: 1rem;
-  left: 1rem;
-  width: 15ch;
-  margin: 0;
-
-  @media (min-width: 768px) {
-    width: 20ch;
-  }
-`;
-
-const Body = styled.div`
-  padding: 1rem 0;
-
-  @media (min-width: 768px) {
-    width: 70ch;
+  .icon {
+    margin-right: 0.5rem;
   }
 `;

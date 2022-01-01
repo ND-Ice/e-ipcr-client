@@ -1,15 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import moment from "moment";
+import { useSelector } from "react-redux";
+import { getEvaluations } from "../store/evaluations";
+import { EvaluationCard } from "../components";
 
-import { LinkIcon } from "../components";
+export default function PastEvaluations() {
+  const { list } = useSelector(getEvaluations);
 
-export default function PastEvaluations({ history }) {
+  const pastEvaluations = list?.filter((evaluation) =>
+    moment(evaluation.due).isAfter(Date.now())
+  );
+
   return (
     <AppContainer>
-      <HeaderContainer>
-        <LinkIcon onClick={() => history.goBack()} />
-        <h2 className="ms-2">Past Evaluation</h2>
-      </HeaderContainer>
+      <h5>Past Evaluations</h5>
+      <AppContent>
+        {pastEvaluations?.map((evaluation) => (
+          <EvaluationCard evaluationInfo={evaluation} />
+        ))}
+      </AppContent>
     </AppContainer>
   );
 }
@@ -22,7 +32,8 @@ const AppContainer = styled.section`
   }
 `;
 
-const HeaderContainer = styled.div`
-  display: flex;
-  align-items: center;
+const AppContent = styled.div`
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
 `;

@@ -1,12 +1,12 @@
 import { NavBar } from "../components";
-import { Route, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import { ProtectedRoute } from "../components";
 
 import {
   CreateEvaluationResponse,
   EvaluationDetails,
   EvaluationsPage,
   Me,
-  OngoingEvaluations,
   PastEvaluations,
 } from ".";
 
@@ -15,21 +15,20 @@ export default function DashBoard() {
     <>
       <NavBar />
       <Switch>
-        <Route path="/dashboard/past-evaluations" component={PastEvaluations} />
-        <Route
-          path="/dashboard/ongoing-evaluations"
-          component={OngoingEvaluations}
+        <ProtectedRoute
+          path="/dashboard/past-evaluations"
+          component={PastEvaluations}
         />
-        <Route
+        <ProtectedRoute
           path="/dashboard/evaluations/:id"
           component={EvaluationDetails}
         />
-        <Route
+        <ProtectedRoute
           path="/dashboard/create-response/:id"
           component={CreateEvaluationResponse}
         />
-        <Route path="/dashboard/me" component={Me} />
-        <Route path="/" component={EvaluationsPage} />
+        <ProtectedRoute path="/dashboard/me" component={Me} />
+        <ProtectedRoute path="/" component={EvaluationsPage} />
       </Switch>
     </>
   );

@@ -7,7 +7,7 @@ export default function Password(props) {
     useFormikContext();
 
   return (
-    <Form.Group className="mb-3" controlId="formBasicEmail">
+    <Form.Group className="mb-2" controlId="formBasicEmail">
       <Form.Label>{title}</Form.Label>
       <Form.Control
         type="password"

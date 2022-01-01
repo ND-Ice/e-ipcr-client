@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export default function NavLInkItem(props) {
-  const { to, children, ...otherProps } = props;
+  const { to, children, active, ...otherProps } = props;
 
   return (
-    <LinkItem to={to} {...otherProps}>
+    <LinkItem to={to} active={active} {...otherProps}>
       {children}
     </LinkItem>
   );
@@ -13,5 +13,6 @@ export default function NavLInkItem(props) {
 
 const LinkItem = styled(Link)`
   text-decoration: none;
-  color: black;
+  color: ${({ active, theme }) =>
+    active ? theme.colors.accent.blue : theme.colors.black};
 `;

@@ -7,7 +7,7 @@ export default function TextInput(props) {
     useFormikContext();
 
   return (
-    <Form.Group className="mb-3 w-100" controlId="formBasicEmail">
+    <Form.Group className="mb-2 w-100" controlId="formBasicEmail">
       <Form.Label>{title}</Form.Label>
       <Form.Control
         type="text"

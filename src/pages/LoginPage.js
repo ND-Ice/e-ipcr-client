@@ -1,21 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
+import jwtDecode from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { Alert } from "react-bootstrap";
 
+// components
 import { Links } from "../components";
 import { AppForm, FormControl } from "../components/forms";
+
+// api
 import authApi from "../api/auth";
 import userApi from "../api/user";
-import { useDispatch, useSelector } from "react-redux";
+
+// store
 import {
   getUser,
-  userReceived,
+  currentUserReceived,
   userRequested,
   userRequestFailed,
 } from "../store/user";
-import { useEffect } from "react";
-import jwtDecode from "jwt-decode";
-import { Alert } from "react-bootstrap";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -29,6 +33,7 @@ const validationSchema = Yup.object().shape({
 export default function LoginPage({ history }) {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     if (user.currentUser) return history.push("/dashboard");
@@ -41,9 +46,11 @@ export default function LoginPage({ history }) {
       const decodedToken = jwtDecode(response.data);
 
       const currentUser = await userApi.getCurrentUser(decodedToken._id);
-      dispatch(userReceived(currentUser.data));
+      dispatch(currentUserReceived(currentUser.data));
+      setErrorMessage(null);
       return history.push("/dashboard");
     } catch (error) {
+      setErrorMessage(error);
       return dispatch(userRequestFailed(error));
     }
   };
@@ -70,26 +77,26 @@ export default function LoginPage({ history }) {
           />
           <FormControl
             variant="password"
-            className="p-2"
+            className="p-2 mb-2"
             title="Password"
             name="password"
             loading={user.loading}
           />
-          {user.errorMessage && (
+          {errorMessage && (
             <Alert variant="danger">
-              {user?.errorMessage?.response?.data ||
+              {errorMessage?.response?.data ||
                 "Something went wrong. Please try again later."}
             </Alert>
           )}
           <FormControl
             variant="button"
-            className="w-100 p-2"
+            className="w-100 p-2 mt-2"
             title="Login"
             loading={user.loading}
           />
           <LinkContainer>
             <Links to="/account-recovery" title="Forgot Password" />
-            <Links to="/activate-account" title="Activate Account?" />
+            <Links to="/register" title="Register" />
           </LinkContainer>
         </AppForm>
       </FormContainer>

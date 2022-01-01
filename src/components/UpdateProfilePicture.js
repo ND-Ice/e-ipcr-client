@@ -1,14 +1,24 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { Alert, Button } from "react-bootstrap";
 
-import { Button } from "react-bootstrap";
-import { getUser } from "../store/user";
+import avatarImg from "../image/avatarImg.jpg";
+import userApi from "../api/user";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  currentUserReceived,
+  getUser,
+  userRequested,
+  userRequestFailed,
+} from "../store/user";
 
-export default function UpdateProfilePicture() {
-  const state = useSelector(getUser);
+export default function UpdateProfilePicture({ user, open }) {
   const hiddenFileUpdload = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handlePick = () => hiddenFileUpdload.current.click();
 
@@ -20,17 +30,29 @@ export default function UpdateProfilePicture() {
 
   const handleDelete = () => setSelectedImage(null);
 
-  const handleUpdate = () => console.log(selectedImage);
+  const handleUpdate = async () => {
+    try {
+      dispatch(userRequested());
+      const faculty = await userApi.updateProfilePicture(
+        user._id,
+        selectedImage
+      );
+      setSuccessMessage("Updated Successfuly.");
+      setErrorMessage(null);
+      dispatch(currentUserReceived(faculty.data));
+      return open(false);
+    } catch (error) {
+      setErrorMessage(error);
+      setSuccessMessage(null);
+      return dispatch(userRequestFailed(error));
+    }
+  };
 
   return (
     <Container>
       <Header>
-        <Button
-          onClick={handlePick}
-          variant="primary"
-          className="w-100 mx-1 p-3"
-        >
-          Upload
+        <Button onClick={handlePick} variant="primary" className="mx-1">
+          Upload New
           <input
             className="d-none"
             onChange={handleChange}
@@ -39,11 +61,7 @@ export default function UpdateProfilePicture() {
           />
         </Button>
         {selectedImage && (
-          <Button
-            onClick={handleDelete}
-            variant="danger"
-            className="w-100 mx-1 p-3"
-          >
+          <Button onClick={handleDelete} variant="danger" className="mx-1">
             Delete
           </Button>
         )}
@@ -53,17 +71,20 @@ export default function UpdateProfilePicture() {
           src={
             selectedImage
               ? URL.createObjectURL(selectedImage)
-              : "https://www.w3schools.com/howto/img_avatar.png"
+              : user.image.current || avatarImg
           }
         />
       </ImageContainer>
+      {errorMessage && (
+        <Alert variant="danger">
+          {errorMessage?.response?.data ||
+            "Something went wrong. Please try again later."}
+        </Alert>
+      )}
+      {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
       {selectedImage && (
-        <Button
-          onClick={handleUpdate}
-          variant="primary"
-          className="w-100 mx-1 p-3"
-        >
+        <Button onClick={handleUpdate} variant="primary" className="mx-1">
           Upload
         </Button>
       )}
@@ -76,7 +97,6 @@ const Container = styled.div``;
 const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 `;
 
 const ImageContainer = styled.div`
@@ -86,9 +106,10 @@ const ImageContainer = styled.div`
 `;
 
 const ProfilePicture = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+  border: 4px solid ${(props) => props.theme.colors.accent.blue};
 `;

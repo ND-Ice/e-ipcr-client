@@ -1,33 +1,51 @@
+import moment from "moment";
 import React from "react";
-import { Card } from "react-bootstrap";
 import styled from "styled-components";
-import { getLetterAvatarBg, getRelativeTime } from "../utils";
+
+import { getLetterAvatarBg } from "../utils";
 
 export default function EvaluationCard({ evaluationInfo, onPreview }) {
+  const diffInHours = moment().diff(
+    moment(parseInt(evaluationInfo.timeStamp)),
+    "hours"
+  );
+
   return (
-    <StyledCard onClick={onPreview}>
-      <Card.Body>
-        <Card.Title>{evaluationInfo.title}</Card.Title>
-        <Badge dept={evaluationInfo.dept}>{evaluationInfo.dept}</Badge>
-        <Card.Text className="mt-2">{evaluationInfo.desc}</Card.Text>
-        <DueDate isFinished={evaluationInfo.isFinished}>
-          {evaluationInfo.isFinished
-            ? "Finished"
-            : `Due : ${getRelativeTime(evaluationInfo.due)}`}
-        </DueDate>
-      </Card.Body>
+    <StyledCard onClick={() => onPreview(evaluationInfo._id)}>
+      <CardBody>
+        <CardTitle>
+          Individual Performance Commitment Review (IPCR){" "}
+          <strong>
+            {parseInt(evaluationInfo.targetYear - 1)} -
+            {evaluationInfo.targetYear}
+          </strong>
+        </CardTitle>
+        <Badge college={evaluationInfo?.college?.acronym}>
+          {evaluationInfo?.college?.acronym}
+        </Badge>
+        {diffInHours < 5 && <NewBadge>New</NewBadge>}
+      </CardBody>
     </StyledCard>
   );
 }
 
-const StyledCard = styled(Card)`
-  border-radius: 0.5rem;
+const StyledCard = styled.div`
   transition: all 0.3s;
   cursor: pointer;
+  position: relative;
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
 
   :hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-bottom-color: ${({ theme }) => theme.colors.accent.emerald};
   }
+`;
+
+const CardBody = styled.div`
+  padding: 0.8rem;
+`;
+
+const CardTitle = styled.p`
+  max-width: 35ch;
 `;
 
 const Badge = styled.span`
@@ -35,22 +53,17 @@ const Badge = styled.span`
   font-size: ${(props) => props.theme.fontSize.paragraph.sm};
   font-weight: 500;
   padding: 0.2rem 0.5rem;
-  border-radius: 1rem;
-  background: ${(props) => getLetterAvatarBg(props.dept)};
+  background: ${(props) => getLetterAvatarBg(props.college)};
   color: ${(props) => props.theme.colors.white};
 `;
 
-const DueDate = styled.span`
-  display: grid;
-  place-items: center;
-  width: max-content;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
-  margin: 5px 0;
-  font-size: 12px;
+const NewBadge = styled.span`
+  padding: 0.3rem 0.5rem;
   color: ${(props) => props.theme.colors.white};
-  background: ${(props) =>
-    props.isFinished
-      ? props.theme.colors.accent.red
-      : props.theme.colors.accent.emerald};
+  background: ${(props) => props.theme.colors.accent.red};
+  font-size: 10px;
+  font-weight: 500;
+  position: absolute;
+  top: 10px;
+  right: -2px;
 `;

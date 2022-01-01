@@ -6,7 +6,7 @@ import { AppForm, FormControl } from "../components/forms";
 import { Links } from "../components";
 import {
   getUser,
-  userReceived,
+  currentUserReceived,
   userRequested,
   userRequestFailed,
 } from "../store/user";
@@ -31,7 +31,7 @@ export default function ChangePassword({ match, history }) {
     try {
       dispatch(userRequested());
       const response = await userApi.changePassword(userId, values.password);
-      dispatch(userReceived(response.data));
+      dispatch(currentUserReceived(response.data));
       return history.push("/dashboard");
     } catch (error) {
       return userRequestFailed(error);

@@ -49,7 +49,6 @@ export default function ProfileInformation() {
       {/* information */}
       <CardContainer>
         <Card>
-          {" "}
           <Card.Header>
             <div className="d-flex justify-content-between align-items-center">
               User Information{" "}
