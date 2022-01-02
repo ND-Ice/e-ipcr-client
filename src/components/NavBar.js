@@ -30,7 +30,7 @@ export default function NavBar() {
             </NavLInkItem>
           ))}
         </NavLinks>
-        <AvatarMenu user={user.currentUser} />
+        <AvatarMenu user={user?.currentUser} />
       </MenuContainer>
     </NavContainer>
   );

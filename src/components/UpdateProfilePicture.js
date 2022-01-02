@@ -4,10 +4,9 @@ import { Alert, Button } from "react-bootstrap";
 
 import avatarImg from "../image/avatarImg.jpg";
 import userApi from "../api/user";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   currentUserReceived,
-  getUser,
   userRequested,
   userRequestFailed,
 } from "../store/user";
@@ -71,7 +70,7 @@ export default function UpdateProfilePicture({ user, open }) {
           src={
             selectedImage
               ? URL.createObjectURL(selectedImage)
-              : user.image.current || avatarImg
+              : user?.image?.current || avatarImg
           }
         />
       </ImageContainer>
