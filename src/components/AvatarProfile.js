@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { FiCamera } from "react-icons/fi";
@@ -6,14 +6,15 @@ import { Avatar, LetterAvatar } from ".";
 
 export default function AvatarProfile(props) {
   const { user, size, onClick } = props;
+  const [imageError, setImageError] = useState(false);
 
   return (
     <Container>
       <IconContainer onClick={onClick}>
         <FiCamera />
       </IconContainer>
-      {user?.image?.current ? (
-        <Avatar user={user} size={size} />
+      {user?.image?.current && !imageError ? (
+        <Avatar user={user} size={size} onError={() => setImageError(true)} />
       ) : (
         <LetterAvatar user={user} size={size} />
       )}
