@@ -21,15 +21,14 @@ export default function UpdateBasicInformation({ user, open }) {
   const dispatch = useDispatch();
   const userProps = useSelector(getUser);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const { firstName, middleName, lastName } = user?.name;
 
   const handleSubmit = async (values) => {
     try {
       dispatch(userRequested());
       const faculty = await userApi.updateUserBasicInfo(user._id, values);
-      setSuccessMessage("Updated Successfully.");
       dispatch(currentUserReceived(faculty.data));
+      setErrorMessage(null);
       return open(false);
     } catch (error) {
       setErrorMessage(error);
@@ -93,8 +92,6 @@ export default function UpdateBasicInformation({ user, open }) {
               "Something went wrong. Please try again later."}
           </Alert>
         )}
-
-        {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
         <FormControl
           variant="button"

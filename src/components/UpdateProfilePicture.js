@@ -14,8 +14,8 @@ import {
 export default function UpdateProfilePicture({ user, open }) {
   const hiddenFileUpdload = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -31,18 +31,19 @@ export default function UpdateProfilePicture({ user, open }) {
 
   const handleUpdate = async () => {
     try {
+      setLoading(true);
       dispatch(userRequested());
       const faculty = await userApi.updateProfilePicture(
-        user._id,
+        user?._id,
         selectedImage
       );
-      setSuccessMessage("Updated Successfuly.");
       setErrorMessage(null);
       dispatch(currentUserReceived(faculty.data));
+      setLoading(false);
       return open(false);
     } catch (error) {
       setErrorMessage(error);
-      setSuccessMessage(null);
+      setLoading(false);
       return dispatch(userRequestFailed(error));
     }
   };
@@ -55,6 +56,7 @@ export default function UpdateProfilePicture({ user, open }) {
           <input
             className="d-none"
             onChange={handleChange}
+            accept="image/png, image/jpeg"
             ref={hiddenFileUpdload}
             type="file"
           />
@@ -80,11 +82,15 @@ export default function UpdateProfilePicture({ user, open }) {
             "Something went wrong. Please try again later."}
         </Alert>
       )}
-      {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
       {selectedImage && (
-        <Button onClick={handleUpdate} variant="primary" className="mx-1">
-          Upload
+        <Button
+          onClick={handleUpdate}
+          disabled={loading}
+          variant="primary"
+          className="mx-1"
+        >
+          {loading ? "Updating..." : "Update"}
         </Button>
       )}
     </Container>

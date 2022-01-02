@@ -3,7 +3,7 @@ import styled from "styled-components";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { FiCalendar } from "react-icons/fi";
-import { Alert, Button } from "react-bootstrap";
+import { Alert, Button, Modal, Spinner } from "react-bootstrap";
 import { CustomModal } from "../components";
 
 import {
@@ -16,8 +16,9 @@ import { getUser } from "../store/user";
 
 import evaluationsApi from "../api/evaluations";
 import responseApi from "../api/response";
+
 import ViewResponse from "../components/evaluation/ViewResponse";
-import { editFunctions, getCreateEvaluation } from "../store/createEvaluation";
+import { editFunctions } from "../store/createEvaluation";
 
 export default function EvaluationDetails({ match, history }) {
   const id = match.params.id;
@@ -27,6 +28,7 @@ export default function EvaluationDetails({ match, history }) {
   const evaluation = evaluations.preview;
   const [evaluationResponse, setEvaluatonResponse] = useState(null);
   const [showYourResponse, setShowYourResponse] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const yourResponse = evaluationResponse?.filter(
     (response) => response?.userId === user?.currentUser?._id
@@ -58,6 +60,7 @@ export default function EvaluationDetails({ match, history }) {
 
   const handleUnSubmit = async () => {
     try {
+      setLoading(true);
       dispatch(
         editFunctions({
           coreFunctions: yourResponse?.coreFunctions,
@@ -65,8 +68,10 @@ export default function EvaluationDetails({ match, history }) {
         })
       );
       await responseApi.unsubmitResponse(yourResponse._id);
+      setLoading(false);
       return history.push(`/dashboard/create-response/${evaluation._id}`);
     } catch (error) {
+      setLoading(false);
       return console.log(error);
     }
   };
@@ -100,7 +105,7 @@ export default function EvaluationDetails({ match, history }) {
           className="mt-4"
           onClick={() => history.push(`/dashboard/create-response/${id}`)}
         >
-          Create
+          Create Response
         </Button>
       )}
 
@@ -119,6 +124,18 @@ export default function EvaluationDetails({ match, history }) {
       >
         <ViewResponse response={yourResponse} />
       </CustomModal>
+
+      <Modal centered show={loading}>
+        <Loading>
+          <Spinner
+            animation="border"
+            variant="secondary"
+            className="me-2"
+            size="md"
+          />
+          Unsubmitting...
+        </Loading>
+      </Modal>
     </AppContainer>
   );
 }
@@ -142,4 +159,10 @@ const DueDate = styled.div`
   .icon {
     margin-right: 0.5rem;
   }
+`;
+
+const Loading = styled.div`
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
 `;

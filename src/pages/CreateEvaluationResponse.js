@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Alert, Button, Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import { FiCheckCircle } from "react-icons/fi";
 
 import responseApi from "../api/response";
@@ -13,7 +13,7 @@ import { getUser } from "../store/user";
 
 export default function CreateEvaluationResponse({ match, history }) {
   const [errorMessage, setErrorMessage] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
 
   const id = match.params.id;
@@ -38,6 +38,7 @@ export default function CreateEvaluationResponse({ match, history }) {
       );
 
     try {
+      setLoading(true);
       await responseApi.submitResponse(
         id,
         currentUser,
@@ -47,10 +48,10 @@ export default function CreateEvaluationResponse({ match, history }) {
         supportTargetMeasures
       );
       setErrorMessage(null);
-      setSuccessMessage("Response submitted.");
+      setLoading(false);
       return history.push(`/dashboard/evaluations/${id}`);
     } catch (error) {
-      setSuccessMessage(null);
+      setLoading(false);
       return setErrorMessage(error);
     }
   };
@@ -59,14 +60,6 @@ export default function CreateEvaluationResponse({ match, history }) {
     <AppContainer>
       <CoreFunctions />
       <SupportFunctions />
-      {successMessage && <Alert variant="success">{successMessage}</Alert>}
-      {errorMessage && (
-        <Alert variant="danger">
-          {errorMessage?.response?.data ||
-            errorMessage ||
-            "Something went wrong. Please try again later."}
-        </Alert>
-      )}
       <Button className="mt-2" onClick={() => setShow(true)}>
         Submit
       </Button>
@@ -78,22 +71,32 @@ export default function CreateEvaluationResponse({ match, history }) {
         </Modal.Header>
         <Modal.Body>
           <Wrapper>
-            <FiCheckCircle className="check-icon" />
-            <span>
-              I{" "}
-              <strong>{`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}</strong>{" "}
-              commit to deliver and agree to be rated on the attainment of the
-              following targets in accordance with the indicated measures for
-              the period January to December {preview?.targetYear}
-            </span>
+            <div>
+              <FiCheckCircle className="check-icon" />
+              <span>
+                I{" "}
+                <strong>{`${currentUser?.name?.firstName} ${currentUser?.name?.lastName}`}</strong>{" "}
+                commit to deliver and agree to be rated on the attainment of the
+                following targets in accordance with the indicated measures for
+                the period January to December {preview?.targetYear}
+              </span>
+            </div>
+
+            {errorMessage && (
+              <Alert variant="danger" className="mt-4">
+                {errorMessage?.response?.data ||
+                  errorMessage ||
+                  "Something went wrong. Please try again later."}
+              </Alert>
+            )}
           </Wrapper>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShow(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Submit
+          <Button variant="primary" disabled={loading} onClick={handleSubmit}>
+            {loading ? "Submitting..." : "Submit"}
           </Button>
         </Modal.Footer>
       </Modal>

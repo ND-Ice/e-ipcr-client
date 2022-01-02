@@ -21,7 +21,7 @@ export default function Me() {
 }
 
 const AppContainer = styled.section`
-  padding: 1rem 10rem;
+  padding: 1rem;
   display: grid;
   gap: 0.5rem;
   border-radius: 0.5rem;
@@ -29,5 +29,6 @@ const AppContainer = styled.section`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     grid-template-columns: 1fr 2fr;
+    padding: 1rem 5rem;
   }
 `;

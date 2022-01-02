@@ -5,19 +5,24 @@ import { useSelector } from "react-redux";
 import { getEvaluations } from "../store/evaluations";
 import { EvaluationCard } from "../components";
 
-export default function PastEvaluations() {
+export default function PastEvaluations({ history }) {
   const { list } = useSelector(getEvaluations);
 
   const pastEvaluations = list?.filter((evaluation) =>
     moment(Date.now()).isAfter(evaluation?.due)
   );
 
+  const handlePreview = (id) => history.push(`/dashboard/evaluations/${id}`);
+
   return (
     <AppContainer>
       <h5>Past Evaluations</h5>
       <AppContent>
         {pastEvaluations?.map((evaluation) => (
-          <EvaluationCard evaluationInfo={evaluation} />
+          <EvaluationCard
+            evaluationInfo={evaluation}
+            onPreview={handlePreview}
+          />
         ))}
       </AppContent>
     </AppContainer>

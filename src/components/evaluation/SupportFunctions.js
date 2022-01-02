@@ -55,7 +55,7 @@ export default function SupportFunctions() {
             <td></td>
             <td>
               <Button onClick={() => setShowAddSupportFunctions(true)}>
-                Add
+                Add Support Function
               </Button>
             </td>
             <td></td>
@@ -80,7 +80,7 @@ export default function SupportFunctions() {
                       return setShowAddSupportTargetMeasure(true);
                     }}
                   >
-                    Add
+                    Add Success Indicator
                   </Button>
                 </td>
                 <td></td>
@@ -99,7 +99,7 @@ export default function SupportFunctions() {
                       )
                     }
                   >
-                    Delete
+                    Delete Function
                   </Button>
                 </td>
               </tr>

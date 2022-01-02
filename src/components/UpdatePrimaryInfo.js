@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppForm, FormControl } from "./forms";
-import usersApi from "../api/user";
 
 import {
   currentUserReceived,
@@ -17,15 +16,14 @@ import userApi from "../api/user";
 export default function UpdatePrimaryInfo({ user, open }) {
   const dispatch = useDispatch();
   const userProps = useSelector(getUser);
-  const [successMessage, setSuccessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const handleSubmit = async (values) => {
     try {
       dispatch(userRequested());
-      const faculty = await userApi.updateUserInfo(user._id, values);
-      setSuccessMessage("Updated Successfuly.");
+      const faculty = await userApi.updateUserInfo(user?._id, values);
       dispatch(currentUserReceived(faculty.data));
+      setErrorMessage(null);
       return open(false);
     } catch (error) {
       setErrorMessage(error);
@@ -95,7 +93,6 @@ export default function UpdatePrimaryInfo({ user, open }) {
               "Something went wrong. Please try again later."}
           </Alert>
         )}
-        {successMessage && <Alert variant="success">{successMessage}</Alert>}
         <FormControl
           variant="button"
           title="Save"

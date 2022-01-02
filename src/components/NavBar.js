@@ -7,6 +7,8 @@ import NavLInkItem from "./NavLInkItem";
 import { AvatarMenu } from ".";
 import { useLocation } from "react-router-dom";
 
+import logo from "../image/logo.png";
+
 const navItems = [
   { to: "/dashboard", title: "Home" },
   { to: "/dashboard/past-evaluations", title: "Past Evaluation" },
@@ -17,7 +19,12 @@ export default function NavBar() {
   const location = useLocation();
   return (
     <NavContainer>
-      <NavLInkItem to="/">E-IPCR</NavLInkItem>
+      <NavLInkItem to="/">
+        <div className="d-flex align-items-center">
+          <LogoImage src={logo} alt="logo" />
+          E-IPCR
+        </div>
+      </NavLInkItem>
       <MenuContainer>
         <NavLinks>
           {navItems.map((item) => (
@@ -67,4 +74,10 @@ const NavLinks = styled.div`
   > * {
     margin: 0 0.5rem;
   }
+`;
+
+const LogoImage = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 0.5rem;
 `;

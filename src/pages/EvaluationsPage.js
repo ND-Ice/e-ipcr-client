@@ -42,7 +42,7 @@ export default function EvaluationsPage({ history }) {
       <Container>
         {ongoing?.map((evaluation) => (
           <EvaluationCard
-            key={evaluation._id}
+            key={evaluation?._id}
             evaluationInfo={evaluation}
             onPreview={handleViewMore}
           />

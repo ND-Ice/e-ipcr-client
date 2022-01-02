@@ -49,7 +49,9 @@ export default function CoreFunctions() {
             <td></td>
             <td></td>
             <td>
-              <Button onClick={() => setShowAddCoreFunctions(true)}>Add</Button>
+              <Button onClick={() => setShowAddCoreFunctions(true)}>
+                Add Core Function
+              </Button>
             </td>
             <td></td>
           </tr>
@@ -73,7 +75,7 @@ export default function CoreFunctions() {
                       setShowAddTargetMeasure(true);
                     }}
                   >
-                    Add
+                    Add Success Indicator
                   </Button>
                 </td>
                 <td></td>
@@ -90,7 +92,7 @@ export default function CoreFunctions() {
                       )
                     }
                   >
-                    Delete
+                    Delete Function
                   </Button>
                 </td>
               </tr>
@@ -117,7 +119,7 @@ export default function CoreFunctions() {
                         return setShowEditSuccessIndicator(true);
                       }}
                     >
-                      Edit
+                      Edit Success Indicator
                     </Button>
                   </td>
                   <td>
