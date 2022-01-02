@@ -9,7 +9,7 @@ export default function PastEvaluations() {
   const { list } = useSelector(getEvaluations);
 
   const pastEvaluations = list?.filter((evaluation) =>
-    moment(evaluation.due).isAfter(Date.now())
+    moment(Date.now()).isAfter(evaluation?.due)
   );
 
   return (

@@ -17,7 +17,7 @@ export default function EvaluationsPage({ history }) {
   const { list } = useSelector(getEvaluations);
 
   const ongoing = list?.filter((evaluation) =>
-    moment(evaluation.due).isSameOrBefore(Date.now())
+    moment(Date.now()).isSameOrBefore(evaluation?.due)
   );
 
   useEffect(() => {
