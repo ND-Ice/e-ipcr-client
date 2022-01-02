@@ -6,6 +6,7 @@ import {
   PasswordRecoveryPage,
   ChangePassword,
   RegisterPage,
+  Activated,
 } from "./pages";
 
 import { ProtectedRoute } from "./components";
@@ -19,6 +20,7 @@ export default function App() {
         <ProtectedRoute path="/dashboard" component={DashBoard} />
         <Route path="/account-recovery" component={PasswordRecoveryPage} />
         <Route path="/change-password/:id" component={ChangePassword} />
+        <Route path="/account-activated" component={Activated} />
         <Route path="/" component={LoginPage} />
       </Switch>
     </>
