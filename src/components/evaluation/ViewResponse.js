@@ -22,25 +22,22 @@ export default function ViewResponse({ response }) {
         </thead>
         <tbody>
           <tr>
-            <td>
+            <td colSpan={3}>
               <h6>Core Functions - 90% </h6>
             </td>
-            <td></td>
-            <td></td>
           </tr>
           {coreFunctions?.map((coreFunc) => (
             <React.Fragment key={coreFunc?.id}>
               <tr>
                 <td>
-                  <h6>
+                  <h6 className="m-0">
                     {coreFunc?.title} ({coreFunc?.percentage}%)
                   </h6>
                   {coreFunc?.description && (
                     <Description>{coreFunc?.description}</Description>
                   )}
                 </td>
-                <td></td>
-                <td></td>
+                <td colSpan={2}></td>
               </tr>
               {coreFunc?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
@@ -53,6 +50,7 @@ export default function ViewResponse({ response }) {
           ))}
         </tbody>
       </Table>
+
       {/* Support Functions */}
       <Table bordered className="mt-4">
         <thead>
@@ -70,11 +68,9 @@ export default function ViewResponse({ response }) {
         </thead>
         <tbody>
           <tr>
-            <td>
+            <td colSpan={3}>
               <h6>Support Functions - 10% </h6>
             </td>
-            <td></td>
-            <td></td>
           </tr>
           {supportFunctions?.map((supportFunc) => (
             <React.Fragment key={supportFunc?.id}>

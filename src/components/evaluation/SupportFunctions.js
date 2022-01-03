@@ -39,31 +39,26 @@ export default function SupportFunctions() {
             <td className="p-4">
               <TableHeader>Success Indicators (Target Measure)</TableHeader>
             </td>
-            <td className="p-4">
+            <td className="p-4" colSpan={3}>
               <TableHeader>Actual Accomplishments</TableHeader>
             </td>
-            <td></td>
-            <td></td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="p-4">
+            <td className="p-4" colSpan={3}>
               <TableHeader>Support Functions - 10%</TableHeader>
             </td>
-            <td></td>
-            <td></td>
-            <td>
+            <td className="p-4" colSpan={2}>
               <Button onClick={() => setShowAddSupportFunctions(true)}>
                 Add Support Function
               </Button>
             </td>
-            <td></td>
           </tr>
           {supportFunctions?.map((suppFunc) => (
             <React.Fragment key={suppFunc?.id}>
               <tr key={suppFunc?.id}>
-                <td className="px-4 p-3">
+                <td className="p-4">
                   <h6 className="m-0">
                     {suppFunc?.title} ({suppFunc?.percentage}%)
                   </h6>
@@ -73,7 +68,7 @@ export default function SupportFunctions() {
                     </Description>
                   )}
                 </td>
-                <td>
+                <td className="p-4" colSpan={3}>
                   <Button
                     onClick={() => {
                       dispatch(setCurrentId(suppFunc?.id));
@@ -83,9 +78,7 @@ export default function SupportFunctions() {
                     Add Success Indicator
                   </Button>
                 </td>
-                <td></td>
-                <td></td>
-                <td>
+                <td className="p-4">
                   <Button
                     variant="danger"
                     onClick={() =>
@@ -112,7 +105,7 @@ export default function SupportFunctions() {
                   <td className="p-4">
                     {successIndicator?.actualAccomplishments?.title}
                   </td>
-                  <td>
+                  <td className="p-4">
                     <Button
                       onClick={() => {
                         dispatch(
@@ -127,7 +120,7 @@ export default function SupportFunctions() {
                       Edit Success Indicator
                     </Button>
                   </td>
-                  <td>
+                  <td className="p-4">
                     <Button
                       variant="danger"
                       onClick={() =>
@@ -144,6 +137,9 @@ export default function SupportFunctions() {
                   </td>
                 </tr>
               ))}
+              <tr>
+                <td className="bg-secondary" colSpan={5}></td>
+              </tr>
             </React.Fragment>
           ))}
         </tbody>
@@ -187,4 +183,5 @@ const TableHeader = styled.h5`
 
 const Description = styled.p`
   max-width: 35ch;
+  margin: 0;
 `;

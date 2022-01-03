@@ -32,28 +32,23 @@ export default function CoreFunctions() {
             <td className="p-4">
               <TableHeader>Success Indicators (Target Measure)</TableHeader>
             </td>
-            <td className="p-4">
+            <td className="p-4" colSpan={4}>
               <TableHeader>Actual Accomplishment</TableHeader>
             </td>
-            <td></td>
-            <td></td>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="p-4">
+            <td className="p-4" colSpan={3}>
               <TableHeader>
                 <TableIndicator>Core Functions - 90%</TableIndicator>
               </TableHeader>
             </td>
-            <td></td>
-            <td></td>
-            <td>
+            <td className="p-4" colSpan={2}>
               <Button onClick={() => setShowAddCoreFunctions(true)}>
                 Add Core Function
               </Button>
             </td>
-            <td></td>
           </tr>
           {evaluation?.coreFunctions?.map((func) => (
             <React.Fragment key={func?.id}>
@@ -68,7 +63,7 @@ export default function CoreFunctions() {
                     <Description>{func?.description}</Description>
                   )}
                 </TableData>
-                <td>
+                <td className="p-4" colSpan={3}>
                   <Button
                     onClick={() => {
                       dispatch(setCurrentId(func.id));
@@ -78,9 +73,7 @@ export default function CoreFunctions() {
                     Add Success Indicator
                   </Button>
                 </td>
-                <td></td>
-                <td></td>
-                <td>
+                <td className="p-4">
                   <Button
                     variant="danger"
                     onClick={() =>
@@ -107,7 +100,7 @@ export default function CoreFunctions() {
                       {successIndicator?.actualAccomplishments?.title}
                     </Description>
                   </td>
-                  <td>
+                  <td className="p-4">
                     <Button
                       onClick={() => {
                         dispatch(
@@ -122,7 +115,7 @@ export default function CoreFunctions() {
                       Edit Success Indicator
                     </Button>
                   </td>
-                  <td>
+                  <td className="p-4">
                     <Button
                       variant="danger"
                       onClick={() =>
@@ -139,6 +132,9 @@ export default function CoreFunctions() {
                   </td>
                 </tr>
               ))}
+              <tr>
+                <td className="bg-secondary" colSpan={5}></td>
+              </tr>
             </React.Fragment>
           ))}
         </tbody>
@@ -189,6 +185,6 @@ const TableIndicator = styled.div`
 `;
 
 const Description = styled.p`
-  margin-top: 1rem;
   max-width: 35ch;
+  margin: 0;
 `;
