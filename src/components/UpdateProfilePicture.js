@@ -38,8 +38,8 @@ export default function UpdateProfilePicture({ user, open }) {
         selectedImage
       );
       setErrorMessage(null);
-      dispatch(currentUserReceived(faculty.data));
       setLoading(false);
+      dispatch(currentUserReceived(faculty.data));
       return open(false);
     } catch (error) {
       setErrorMessage(error);

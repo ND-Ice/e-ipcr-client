@@ -10,9 +10,9 @@ export default function ProfileIntro({ user }) {
       <Header>
         <AvatarProfile size={100} user={user} onClick={() => setShow(true)} />
         <h3 className="mt-2">
-          {user.name.firstName} {user.name.lastName}
+          {user?.name?.firstName} {user?.name?.lastName}
         </h3>
-        <p>{user.college.full}</p>
+        <p>{user?.college?.full}</p>
       </Header>
       <CustomModal
         show={show}

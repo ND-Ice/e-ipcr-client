@@ -124,7 +124,7 @@ export default function SupportFunctions() {
                         return setShowEditSuccessIndicator(true);
                       }}
                     >
-                      Edit
+                      Edit Success Indicator
                     </Button>
                   </td>
                   <td>

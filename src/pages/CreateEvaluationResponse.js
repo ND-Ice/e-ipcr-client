@@ -7,14 +7,19 @@ import { FiCheckCircle } from "react-icons/fi";
 import responseApi from "../api/response";
 
 import { CoreFunctions, SupportFunctions } from "../components/evaluation";
-import { getCreateEvaluation } from "../store/createEvaluation";
+import {
+  getCreateEvaluation,
+  resetEvaluationForm,
+} from "../store/createEvaluation";
 import { getEvaluations } from "../store/evaluations";
 import { getUser } from "../store/user";
+import { useDispatch } from "react-redux";
 
 export default function CreateEvaluationResponse({ match, history }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
 
   const id = match.params.id;
   const { currentUser } = useSelector(getUser);
@@ -48,6 +53,7 @@ export default function CreateEvaluationResponse({ match, history }) {
         supportTargetMeasures
       );
       setErrorMessage(null);
+      dispatch(resetEvaluationForm());
       setLoading(false);
       return history.push(`/dashboard/evaluations/${id}`);
     } catch (error) {

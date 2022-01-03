@@ -148,6 +148,10 @@ const slice = createSlice({
       successIndicator.title = successIndicatorTitle;
       successIndicator.actualAccomplishments.title = accomplishment;
     },
+    resetEvaluationForm: (state, action) => {
+      state.coreFunctions = [];
+      state.supportFunctions = [];
+    },
   },
 });
 
@@ -167,6 +171,7 @@ export const {
   setTargetIndicator,
   editSuccessIndicator,
   editSupportSuccessIndicator,
+  resetEvaluationForm,
 } = slice.actions;
 
 // selectors
