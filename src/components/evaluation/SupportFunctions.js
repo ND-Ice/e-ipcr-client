@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-
 import { CustomModal } from "..";
+
 import {
   AddSupportFunctions,
   AddSupportTargetMeasure,
   EditSupportSuccessIndicator,
 } from ".";
+
 import {
   deleteSupportFunction,
   deleteSupportSuccessIndicator,
@@ -31,25 +32,25 @@ export default function SupportFunctions() {
   return (
     <Container>
       <Table bordered>
-        <thead>
+        <tbody>
+          {/* header */}
           <tr>
-            <td className="p-4">
+            <td className="p-3">
               <TableHeader>Statement of Functions</TableHeader>
             </td>
-            <td className="p-4">
+            <td className="p-3">
               <TableHeader>Success Indicators (Target Measure)</TableHeader>
             </td>
-            <td className="p-4" colSpan={3}>
+            <td className="p-3" colSpan={3}>
               <TableHeader>Actual Accomplishments</TableHeader>
             </td>
           </tr>
-        </thead>
-        <tbody>
+          {/* content */}
           <tr>
-            <td className="p-4" colSpan={3}>
-              <TableHeader>Support Functions - 10%</TableHeader>
+            <td className="p-3" colSpan={3}>
+              Support Functions - 10%
             </td>
-            <td className="p-4" colSpan={2}>
+            <td className="p-3" colSpan={2}>
               <Button onClick={() => setShowAddSupportFunctions(true)}>
                 Add Support Function
               </Button>
@@ -58,7 +59,7 @@ export default function SupportFunctions() {
           {supportFunctions?.map((suppFunc) => (
             <React.Fragment key={suppFunc?.id}>
               <tr key={suppFunc?.id}>
-                <td className="p-4">
+                <td className="p-3">
                   <h6 className="m-0">
                     {suppFunc?.title} ({suppFunc?.percentage}%)
                   </h6>
@@ -68,7 +69,7 @@ export default function SupportFunctions() {
                     </Description>
                   )}
                 </td>
-                <td className="p-4" colSpan={3}>
+                <td className="p-3" colSpan={3}>
                   <Button
                     onClick={() => {
                       dispatch(setCurrentId(suppFunc?.id));
@@ -78,7 +79,7 @@ export default function SupportFunctions() {
                     Add Success Indicator
                   </Button>
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <Button
                     variant="danger"
                     onClick={() =>
@@ -98,14 +99,14 @@ export default function SupportFunctions() {
               </tr>
               {suppFunc?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
-                  <td className="p-4"></td>
-                  <td className="p-4">
+                  <td className="p-3"></td>
+                  <td className="p-3">
                     <Description>{successIndicator?.title}</Description>
                   </td>
-                  <td className="p-4">
+                  <td className="p-3">
                     {successIndicator?.actualAccomplishments?.title}
                   </td>
-                  <td className="p-4">
+                  <td className="p-3">
                     <Button
                       onClick={() => {
                         dispatch(
@@ -120,7 +121,7 @@ export default function SupportFunctions() {
                       Edit Success Indicator
                     </Button>
                   </td>
-                  <td className="p-4">
+                  <td className="p-3">
                     <Button
                       variant="danger"
                       onClick={() =>
@@ -138,7 +139,7 @@ export default function SupportFunctions() {
                 </tr>
               ))}
               <tr>
-                <td className="bg-secondary" colSpan={5}></td>
+                <td className="bg-secondary p-1" colSpan={5}></td>
               </tr>
             </React.Fragment>
           ))}
@@ -177,7 +178,6 @@ const Container = styled.div``;
 const TableHeader = styled.h5`
   margin: 0;
   font-weight: 500;
-  font-size: 1.2rem;
   text-transform: capitalize;
 `;
 

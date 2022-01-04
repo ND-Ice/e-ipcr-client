@@ -24,36 +24,39 @@ export default function CoreFunctions() {
   return (
     <Container>
       <Table bordered>
-        <thead>
+        <tbody>
+          {/* header */}
           <tr>
-            <td className="p-4">
+            <td className="text-center" colSpan={5}>
+              Individual Performance Commitment Review
+            </td>
+          </tr>
+          <tr>
+            <td className="p-3">
               <TableHeader>Statement of Functions</TableHeader>
             </td>
-            <td className="p-4">
+            <td className="p-3">
               <TableHeader>Success Indicators (Target Measure)</TableHeader>
             </td>
-            <td className="p-4" colSpan={4}>
+            <td className="p-3" colSpan={4}>
               <TableHeader>Actual Accomplishment</TableHeader>
             </td>
           </tr>
-        </thead>
-        <tbody>
           <tr>
-            <td className="p-4" colSpan={3}>
-              <TableHeader>
-                <TableIndicator>Core Functions - 90%</TableIndicator>
-              </TableHeader>
+            <td className="p-3" colSpan={3}>
+              <TableIndicator>Core Functions - 90%</TableIndicator>
             </td>
-            <td className="p-4" colSpan={2}>
+            <td className="p-3" colSpan={2}>
               <Button onClick={() => setShowAddCoreFunctions(true)}>
                 Add Core Function
               </Button>
             </td>
           </tr>
+          {/* content */}
           {evaluation?.coreFunctions?.map((func) => (
             <React.Fragment key={func?.id}>
               <tr>
-                <TableData className="px-4 p-3">
+                <TableData className="p-3">
                   <h6 className="m-0">
                     <Description>
                       {func?.title} ({func.percentage}%)
@@ -63,7 +66,7 @@ export default function CoreFunctions() {
                     <Description>{func?.description}</Description>
                   )}
                 </TableData>
-                <td className="p-4" colSpan={3}>
+                <td className="p-3" colSpan={3}>
                   <Button
                     onClick={() => {
                       dispatch(setCurrentId(func.id));
@@ -73,7 +76,7 @@ export default function CoreFunctions() {
                     Add Success Indicator
                   </Button>
                 </td>
-                <td className="p-4">
+                <td className="p-3">
                   <Button
                     variant="danger"
                     onClick={() =>
@@ -92,15 +95,15 @@ export default function CoreFunctions() {
               {func?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
                   <td></td>
-                  <td className="p-4">
+                  <td className="p-3">
                     <Description>{successIndicator?.title} </Description>
                   </td>
-                  <td className="p-4">
+                  <td className="p-3">
                     <Description>
                       {successIndicator?.actualAccomplishments?.title}
                     </Description>
                   </td>
-                  <td className="p-4">
+                  <td className="p-3">
                     <Button
                       onClick={() => {
                         dispatch(
@@ -115,7 +118,7 @@ export default function CoreFunctions() {
                       Edit Success Indicator
                     </Button>
                   </td>
-                  <td className="p-4">
+                  <td className="p-3">
                     <Button
                       variant="danger"
                       onClick={() =>
@@ -133,7 +136,7 @@ export default function CoreFunctions() {
                 </tr>
               ))}
               <tr>
-                <td className="bg-secondary" colSpan={5}></td>
+                <td className="bg-secondary p-1" colSpan={5}></td>
               </tr>
             </React.Fragment>
           ))}
@@ -168,8 +171,6 @@ const Container = styled.div``;
 
 const TableHeader = styled.h5`
   margin: 0;
-  font-weight: 500;
-  font-size: 1.2rem;
   text-transform: capitalize;
 `;
 

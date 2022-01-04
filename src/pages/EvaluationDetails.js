@@ -144,7 +144,7 @@ const AppContainer = styled.div`
   padding: 1rem;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    padding: 2rem 10rem;
+    padding: 2rem 5rem;
   }
 `;
 

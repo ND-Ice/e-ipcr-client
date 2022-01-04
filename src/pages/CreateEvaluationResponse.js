@@ -14,6 +14,7 @@ import {
 import { getEvaluations } from "../store/evaluations";
 import { getUser } from "../store/user";
 import { useDispatch } from "react-redux";
+import Logo from "../image/logo.png";
 
 export default function CreateEvaluationResponse({ match, history }) {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -64,6 +65,16 @@ export default function CreateEvaluationResponse({ match, history }) {
 
   return (
     <AppContainer>
+      <Header>
+        <LogoImage src={Logo} />
+        <div className="text-center">
+          <i>Republic of the Philippines</i>
+          <h4 className="m-0">
+            EULOGIO “AMANG” RODRIGUEZ INSTITUTE OF SCIENCE AND TECHNOLOGY
+          </h4>
+          <i>Nagtahan, Sampaloc, Manila</i>
+        </div>
+      </Header>
       <CoreFunctions />
       <SupportFunctions />
       <Button className="mt-2" onClick={() => setShow(true)}>
@@ -123,4 +134,18 @@ const Wrapper = styled.div`
     margin-right: 0.5rem;
     color: ${({ theme }) => theme.colors.accent.emerald};
   }
+`;
+
+const LogoImage = styled.img`
+  width: 100px;
+  height: 100px;
+  position: relative;
+  left: -4rem;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
 `;
