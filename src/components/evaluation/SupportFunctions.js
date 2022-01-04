@@ -34,7 +34,7 @@ export default function SupportFunctions() {
       <Table bordered>
         <tbody>
           {/* header */}
-          <tr>
+          <tr className="text-center">
             <td className="p-3">
               <TableHeader>Statement of Functions</TableHeader>
             </td>

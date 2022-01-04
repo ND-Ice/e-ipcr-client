@@ -82,7 +82,7 @@ export default function EvaluationDetails({ match, history }) {
       <Title>
         Individual Performance Commitment Review (IPCR){" "}
         <strong>
-          {evaluation?.targetYear}-{evaluation?.targetYear - 1}
+          {evaluation?.targetYear - 1}-{evaluation?.targetYear}
         </strong>
       </Title>
 

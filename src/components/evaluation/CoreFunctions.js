@@ -31,7 +31,7 @@ export default function CoreFunctions() {
               Individual Performance Commitment Review
             </td>
           </tr>
-          <tr>
+          <tr className="text-center">
             <td className="p-3">
               <TableHeader>Statement of Functions</TableHeader>
             </td>
