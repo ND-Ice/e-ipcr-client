@@ -1,11 +1,22 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import styled from "styled-components";
+import Logo from "../../image/logo.png";
 
 export default function ViewResponse({ response }) {
   const { coreFunctions, supportFunctions } = response;
   return (
     <Container>
+      <Header>
+        <LogoImage src={Logo} />
+        <div className="text-center">
+          <i>Republic of the Philippines</i>
+          <h4 className="m-0">
+            EULOGIO “AMANG” RODRIGUEZ INSTITUTE OF SCIENCE AND TECHNOLOGY
+          </h4>
+          <i>Nagtahan, Sampaloc, Manila</i>
+        </div>
+      </Header>
       <Table bordered>
         <thead>
           <tr>
@@ -118,4 +129,18 @@ const Container = styled.div`
 
 const Description = styled.p`
   max-width: 30ch;
+`;
+
+const LogoImage = styled.img`
+  width: 100px;
+  height: 100px;
+  position: relative;
+  left: -4rem;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
 `;

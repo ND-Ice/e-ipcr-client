@@ -46,7 +46,7 @@ export default function CoreFunctions() {
             <td className="p-3" colSpan={3}>
               <TableIndicator>Core Functions - 90%</TableIndicator>
             </td>
-            <td className="p-3" colSpan={2}>
+            <td className="p-3 text-center" colSpan={2}>
               <Button onClick={() => setShowAddCoreFunctions(true)}>
                 Add Core Function
               </Button>
@@ -69,14 +69,14 @@ export default function CoreFunctions() {
                 <td className="p-3" colSpan={3}>
                   <Button
                     onClick={() => {
-                      dispatch(setCurrentId(func.id));
+                      dispatch(setCurrentId(func?.id));
                       setShowAddTargetMeasure(true);
                     }}
                   >
                     Add Success Indicator
                   </Button>
                 </td>
-                <td className="p-3">
+                <td className="p-3 text-center">
                   <Button
                     variant="danger"
                     onClick={() =>
@@ -103,7 +103,7 @@ export default function CoreFunctions() {
                       {successIndicator?.actualAccomplishments?.title}
                     </Description>
                   </td>
-                  <td className="p-3">
+                  <td className="p-3 text-center">
                     <Button
                       onClick={() => {
                         dispatch(
@@ -118,7 +118,7 @@ export default function CoreFunctions() {
                       Edit Success Indicator
                     </Button>
                   </td>
-                  <td className="p-3">
+                  <td className="p-3 text-center">
                     <Button
                       variant="danger"
                       onClick={() =>

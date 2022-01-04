@@ -50,7 +50,7 @@ export default function SupportFunctions() {
             <td className="p-3" colSpan={3}>
               Support Functions - 10%
             </td>
-            <td className="p-3" colSpan={2}>
+            <td className="p-3 text-center" colSpan={2}>
               <Button onClick={() => setShowAddSupportFunctions(true)}>
                 Add Support Function
               </Button>
@@ -79,7 +79,7 @@ export default function SupportFunctions() {
                     Add Success Indicator
                   </Button>
                 </td>
-                <td className="p-3">
+                <td className="p-3 text-center">
                   <Button
                     variant="danger"
                     onClick={() =>
@@ -106,7 +106,7 @@ export default function SupportFunctions() {
                   <td className="p-3">
                     {successIndicator?.actualAccomplishments?.title}
                   </td>
-                  <td className="p-3">
+                  <td className="p-3 text-center">
                     <Button
                       onClick={() => {
                         dispatch(
@@ -121,7 +121,7 @@ export default function SupportFunctions() {
                       Edit Success Indicator
                     </Button>
                   </td>
-                  <td className="p-3">
+                  <td className="p-3 text-center">
                     <Button
                       variant="danger"
                       onClick={() =>
