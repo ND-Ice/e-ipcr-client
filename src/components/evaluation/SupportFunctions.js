@@ -35,14 +35,10 @@ export default function SupportFunctions() {
         <tbody>
           {/* header */}
           <tr className="text-center">
-            <td className="p-3">
-              <TableHeader>Statement of Functions</TableHeader>
-            </td>
-            <td className="p-3">
-              <TableHeader>Success Indicators (Target Measure)</TableHeader>
-            </td>
+            <td className="p-3">Statement of Functions</td>
+            <td className="p-3">Success Indicators (Target Measure)</td>
             <td className="p-3" colSpan={3}>
-              <TableHeader>Actual Accomplishments</TableHeader>
+              Actual Accomplishments
             </td>
           </tr>
           {/* content */}

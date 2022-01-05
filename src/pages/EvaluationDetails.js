@@ -93,7 +93,14 @@ export default function EvaluationDetails({ match, history }) {
 
       {yourResponse && (
         <Alert className="mt-4" variant="success">
-          We received your response.
+          {yourResponse?.isApproved?.recommendation ||
+            "We received your response."}
+        </Alert>
+      )}
+      {yourResponse?.isApproved && (
+        <Alert variant="dark">
+          Your response is already rated and approved by the evaluator,
+          resubmission and unsibmission is no longer available.
         </Alert>
       )}
       {yourResponse && (
@@ -110,7 +117,11 @@ export default function EvaluationDetails({ match, history }) {
       )}
 
       {yourResponse && (
-        <Button className="ms-2" onClick={handleUnSubmit}>
+        <Button
+          disabled={yourResponse?.isApproved}
+          className="ms-2"
+          onClick={handleUnSubmit}
+        >
           Unsubmit
         </Button>
       )}

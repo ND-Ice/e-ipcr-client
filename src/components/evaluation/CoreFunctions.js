@@ -32,14 +32,10 @@ export default function CoreFunctions() {
             </td>
           </tr>
           <tr className="text-center">
-            <td className="p-3">
-              <TableHeader>Statement of Functions</TableHeader>
-            </td>
-            <td className="p-3">
-              <TableHeader>Success Indicators (Target Measure)</TableHeader>
-            </td>
+            <td className="p-3">Statement of Functions</td>
+            <td className="p-3">Success Indicators (Target Measure)</td>
             <td className="p-3" colSpan={4}>
-              <TableHeader>Actual Accomplishment</TableHeader>
+              Actual Accomplishment
             </td>
           </tr>
           <tr>
@@ -168,11 +164,6 @@ export default function CoreFunctions() {
 }
 
 const Container = styled.div``;
-
-const TableHeader = styled.h5`
-  margin: 0;
-  text-transform: capitalize;
-`;
 
 const TableData = styled.td`
   cursor: pointer;

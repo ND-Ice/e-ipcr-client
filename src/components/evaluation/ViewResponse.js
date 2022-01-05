@@ -2,9 +2,31 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import styled from "styled-components";
 import Logo from "../../image/logo.png";
+import { getRemarks } from "../../utils";
 
 export default function ViewResponse({ response }) {
   const { coreFunctions, supportFunctions } = response;
+
+  // get the core functions ratings
+  const coreFuncRating = coreFunctions?.map((coreFunc) => {
+    const ave = coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    return (
+      (ave / coreFunc?.successIndicators?.length) * (coreFunc?.percentage / 100)
+    );
+  });
+
+  // get the support functions rating
+  const supportFuncRating = supportFunctions?.map((suppFunc) => {
+    const ave = suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    return (
+      (ave / suppFunc?.successIndicators?.length) * (suppFunc?.percentage / 100)
+    );
+  });
+
+  const finalRating = [...supportFuncRating, ...coreFuncRating]
+    .reduce((acc, curr) => acc + curr, 0)
+    .toFixed(2);
+
   return (
     <Container>
       <Header>
@@ -20,24 +42,18 @@ export default function ViewResponse({ response }) {
       <Table bordered>
         <tbody>
           <tr className="text-center">
-            <td>Individual Performance Commitment Review</td>
+            <td colSpan={3}>Individual Performance Commitment Review</td>
           </tr>
           {/* header */}
           <tr className="text-center">
-            <td>
-              <h6 className="m-0"> Statement of Functions </h6>
-            </td>
-            <td>
-              <h6 className="m-0">Success Indicator (Target Measure) </h6>
-            </td>
-            <td>
-              <h6 className="m-0">Actual Accomplishments </h6>
-            </td>
+            <td>Statement of Functions</td>
+            <td>Success Indicator (Target Measure)</td>
+            <td>Actual Accomplishments</td>
           </tr>
           <tr>
             {/* content */}
-            <td colSpan={3}>
-              <h6>Core Functions - 90% </h6>
+            <td colSpan={3} className="bg-dark text-white">
+              Core Functions - 90%
             </td>
           </tr>
           {coreFunctions?.map((coreFunc) => (
@@ -62,34 +78,17 @@ export default function ViewResponse({ response }) {
               ))}
             </React.Fragment>
           ))}
-        </tbody>
-      </Table>
 
-      {/* Support Functions */}
-      <Table bordered className="mt-4">
-        <thead>
+          {/* support functions */}
           <tr>
-            <td>
-              <h6 className="m-0"> Statement of Functions </h6>
-            </td>
-            <td>
-              <h6 className="m-0">Success Indicator (Target Measure) </h6>
-            </td>
-            <td>
-              <h6 className="m-0">Actual Accomplishments </h6>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td colSpan={3}>
-              <h6>Support Functions - 10% </h6>
+            <td colSpan={3} className="bg-dark text-white">
+              Support Functions - 10%
             </td>
           </tr>
           {supportFunctions?.map((supportFunc) => (
             <React.Fragment key={supportFunc?.id}>
               <tr>
-                <td>
+                <td colSpan={3}>
                   <h6>
                     {supportFunc?.title} ({supportFunc?.percentage}%)
                   </h6>
@@ -97,8 +96,6 @@ export default function ViewResponse({ response }) {
                     <Description>{supportFunc?.description}</Description>
                   )}
                 </td>
-                <td></td>
-                <td></td>
               </tr>
               {supportFunc?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
@@ -113,15 +110,96 @@ export default function ViewResponse({ response }) {
                   </td>
                 </tr>
               ))}
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
             </React.Fragment>
           ))}
         </tbody>
       </Table>
+
+      {/* Rating Summary */}
+      <Table bordered className="mt-2">
+        <tbody>
+          {/* heading */}
+          <tr>
+            <td>Summary of Ratings</td>
+            <td className="text-center">Average</td>
+            <td className="text-center">Percent</td>
+            <td className="text-center">Score</td>
+          </tr>
+          {/* indicator */}
+          <tr className="text-center">
+            <td colSpan={4} className="bg-secondary text-white">
+              Core Functions
+            </td>
+          </tr>
+
+          {/* core functions */}
+          {coreFunctions?.map((coreFunc) => (
+            <tr>
+              <td>{coreFunc?.title}</td>
+              <td className="text-center">
+                {(
+                  coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
+                  coreFunc?.rawAverage?.length
+                ).toFixed(2)}
+              </td>
+              <td className="text-center">{coreFunc?.percentage}%</td>
+              <td className="text-center">
+                {(
+                  (coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
+                    coreFunc?.rawAverage?.length) *
+                  (coreFunc?.percentage / 100)
+                ).toFixed(2)}
+              </td>
+            </tr>
+          ))}
+
+          <tr className="text-center">
+            <td colSpan={4} className="bg-secondary text-white">
+              Support Functions
+            </td>
+          </tr>
+
+          {/* support functions */}
+          {supportFunctions?.map((suppFunc) => (
+            <tr>
+              <td>{suppFunc?.title}</td>
+              <td className="text-center">
+                {(
+                  suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
+                  suppFunc?.rawAverage?.length
+                ).toFixed(2)}
+              </td>
+              <td className="text-center">{suppFunc?.percentage}%</td>
+              <td className="text-center">
+                {(
+                  (suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
+                    suppFunc?.rawAverage?.length) *
+                  (suppFunc?.percentage / 100)
+                ).toFixed(2)}
+              </td>
+            </tr>
+          ))}
+          <tr className="text-center bg-secondary text-white">
+            <td colSpan={4}>Ratings</td>
+          </tr>
+
+          <tr>
+            <td colSpan={2}>Final Rating</td>
+            <td className="text-center">100%</td>
+            <td className="text-center">{finalRating}</td>
+          </tr>
+          <tr>
+            <td colSpan={2}>Adjectival Rating</td>
+            <td colSpan={2} className="text-center">
+              {getRemarks(finalRating)}
+            </td>
+          </tr>
+        </tbody>
+      </Table>
+      <div className="">
+        <h5>Comments and Recommendations</h5>
+        <p className="ms-2">{response?.isApproved?.recommendation}</p>
+      </div>
     </Container>
   );
 }
@@ -131,7 +209,7 @@ const Container = styled.div`
 `;
 
 const Description = styled.p`
-  max-width: 30ch;
+  max-width: 40ch;
 `;
 
 const LogoImage = styled.img`
