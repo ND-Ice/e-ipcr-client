@@ -91,7 +91,7 @@ export default function LoginPage({ history }) {
           <FormControl
             variant="button"
             className="w-100 p-2 mt-2"
-            title="Login"
+            title={user.loading ? "Logging in..." : "Login"}
             loading={user.loading}
           />
           <LinkContainer>

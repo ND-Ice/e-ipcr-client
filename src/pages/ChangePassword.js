@@ -1,16 +1,16 @@
 import * as Yup from "yup";
 import styled from "styled-components";
-
 import { useDispatch, useSelector } from "react-redux";
+
 import { AppForm, FormControl } from "../components/forms";
 import { Links } from "../components";
+import userApi from "../api/user";
 import {
   getUser,
   currentUserReceived,
   userRequested,
   userRequestFailed,
 } from "../store/user";
-import userApi from "../api/user";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -31,6 +31,7 @@ export default function ChangePassword({ match, history }) {
     try {
       dispatch(userRequested());
       const response = await userApi.changePassword(userId, values.password);
+      console.log(response.data);
       dispatch(currentUserReceived(response.data));
       return history.push("/dashboard");
     } catch (error) {
@@ -66,8 +67,8 @@ export default function ChangePassword({ match, history }) {
           />
           <FormControl
             variant="button"
-            title="Change Password"
-            className="p-2 w-100"
+            title={user.loading ? "Changing Password..." : "Change Password"}
+            className="p-2 w-100 mb-2"
             loading={user.loading}
           />
           <LinkContainer>

@@ -1,5 +1,4 @@
 import client from "./client";
-
 const endpoint = "/faculties";
 
 const getCurrentUser = (userId) => client.get(`${endpoint}/${userId}`);
@@ -17,6 +16,9 @@ const updateProfilePicture = (id, info) => {
 const changePassword = (userId, password) =>
   client.patch(`${endpoint}/change-password/${userId}`, { password });
 
+const forgotPassword = (email) =>
+  client.get(`${endpoint}/forgot-password/${email}`);
+
 const userApi = {
   registerUser,
   changePassword,
@@ -24,5 +26,6 @@ const userApi = {
   updateUserInfo,
   updateUserBasicInfo,
   updateProfilePicture,
+  forgotPassword,
 };
 export default userApi;

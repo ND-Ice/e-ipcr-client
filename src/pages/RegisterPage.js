@@ -168,7 +168,7 @@ export default function RegisterPage() {
           <div className="d-flex align-items-center justify-content-between">
             <FormControl
               variant="button"
-              title="Register"
+              title={user.loading ? "Generating..." : "Register"}
               className="p-2"
               loading={user.loading}
             />

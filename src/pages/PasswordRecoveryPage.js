@@ -1,5 +1,9 @@
+import { useState } from "react";
+import { Alert } from "react-bootstrap";
 import styled from "styled-components";
 import * as Yup from "yup";
+
+import userApi from "../api/user";
 import { Links } from "../components";
 import { AppForm, FormControl } from "../components/forms";
 
@@ -10,7 +14,24 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function PasswordRecoveryPage() {
-  const handleSubmit = (values) => console.log(values);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (values) => {
+    try {
+      setLoading(true);
+      const response = await userApi.forgotPassword(values.email);
+      setErrorMessage(null);
+      setLoading(false);
+      console.log(response.data);
+      return setSuccessMessage(response.data);
+    } catch (error) {
+      setLoading(false);
+      setSuccessMessage(null);
+      return setErrorMessage(error);
+    }
+  };
   return (
     <AppContainer>
       <FormContainer>
@@ -29,12 +50,21 @@ export default function PasswordRecoveryPage() {
             variant="input"
             title="Email Address"
             name="email"
-            className="p-2"
+            className="p-2 mb-2"
+            loading={loading}
           />
+          {errorMessage && (
+            <Alert variant="danger">
+              {errorMessage?.response?.data ||
+                "Something went wrong. Please try again later."}
+            </Alert>
+          )}
+          {successMessage && <Alert variant="success">{successMessage}</Alert>}
           <FormControl
             variant="button"
-            title="Start Recovering"
+            title={loading ? "Recovering" : "Start Recovering"}
             className="w-100 p-2"
+            loading={loading}
           />
           <LinkContainer>
             <Links to="/" title="Back to Login" />
