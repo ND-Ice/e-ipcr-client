@@ -18,8 +18,12 @@ export default function ViewResponse({ response }) {
         </div>
       </Header>
       <Table bordered>
-        <thead>
-          <tr>
+        <tbody>
+          <tr className="text-center">
+            <td>Individual Performance Commitment Review</td>
+          </tr>
+          {/* header */}
+          <tr className="text-center">
             <td>
               <h6 className="m-0"> Statement of Functions </h6>
             </td>
@@ -30,9 +34,8 @@ export default function ViewResponse({ response }) {
               <h6 className="m-0">Actual Accomplishments </h6>
             </td>
           </tr>
-        </thead>
-        <tbody>
           <tr>
+            {/* content */}
             <td colSpan={3}>
               <h6>Core Functions - 90% </h6>
             </td>
