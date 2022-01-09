@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import evaluations from "./evaluations";
-import createEvaluation from "./createEvaluation";
+import templates from "./templates";
 
 export default combineReducers({
   evaluations,
-  createEvaluation,
+  templates,
 });

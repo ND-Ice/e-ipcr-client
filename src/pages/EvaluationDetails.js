@@ -18,7 +18,6 @@ import evaluationsApi from "../api/evaluations";
 import responseApi from "../api/response";
 
 import ViewResponse from "../components/evaluation/ViewResponse";
-import { editFunctions } from "../store/createEvaluation";
 
 export default function EvaluationDetails({ match, history }) {
   const id = match.params.id;
@@ -61,12 +60,6 @@ export default function EvaluationDetails({ match, history }) {
   const handleUnSubmit = async () => {
     try {
       setLoading(true);
-      dispatch(
-        editFunctions({
-          coreFunctions: yourResponse?.coreFunctions,
-          supportFunctions: yourResponse?.supportFunctions,
-        })
-      );
       await responseApi.unsubmitResponse(yourResponse._id);
       setLoading(false);
       return history.push(`/dashboard/create-response/${evaluation._id}`);
@@ -95,6 +88,11 @@ export default function EvaluationDetails({ match, history }) {
         <Alert className="mt-4" variant="success">
           {yourResponse?.isApproved?.recommendation ||
             "We received your response."}
+        </Alert>
+      )}
+      {!yourResponse?.isApproved && (
+        <Alert variant="warning">
+          Your evaluation is now in the queue of proccessing
         </Alert>
       )}
       {yourResponse?.isApproved && (

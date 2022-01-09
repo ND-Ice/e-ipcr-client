@@ -1,11 +1,13 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import styled from "styled-components";
+
 import Logo from "../../image/logo.png";
-import { getRemarks } from "../../utils";
+import { RatingSummary } from "../templates";
+import Attachment from "./Attachment";
 
 export default function ViewResponse({ response }) {
-  const { coreFunctions, supportFunctions } = response;
+  const { coreFunctions, supportFunctions, _id, attachments } = response;
 
   // get the core functions ratings
   const coreFuncRating = coreFunctions?.map((coreFunc) => {
@@ -23,9 +25,8 @@ export default function ViewResponse({ response }) {
     );
   });
 
-  const finalRating = [...supportFuncRating, ...coreFuncRating]
-    .reduce((acc, curr) => acc + curr, 0)
-    .toFixed(2);
+  const handleNavigate = (path) =>
+    window.open(`https://e-ipcr-backend.herokuapp.com/${path}`, " _blank");
 
   return (
     <Container>
@@ -39,177 +40,150 @@ export default function ViewResponse({ response }) {
           <i>Nagtahan, Sampaloc, Manila</i>
         </div>
       </Header>
-      <Table bordered>
-        <tbody>
+      <Table bordered hover>
+        <thead>
           <tr className="text-center">
-            <td colSpan={3}>Individual Performance Commitment Review</td>
+            <td colSpan={8}>INDIVIDUAL PERFORMANCE COMMITMENT REVIEW</td>
           </tr>
-          {/* header */}
           <tr className="text-center">
             <td>Statement of Functions</td>
-            <td>Success Indicator (Target Measure)</td>
+            <td>SuccessIndicator (Target Measure)</td>
             <td>Actual Accomplishments</td>
+            <td colSpan={5}>Rating</td>
           </tr>
+        </thead>
+        <tbody>
           <tr>
-            {/* content */}
-            <td colSpan={3} className="bg-dark text-white">
+            <td colSpan={3} className=" text-white bg-dark">
               Core Functions - 90%
             </td>
+            <td className="text-center text-white bg-dark">Quality</td>
+            <td className="text-center text-white bg-dark">Timeliness</td>
+            <td className="text-center text-white bg-dark">Efficiency</td>
+            <td className="text-center text-white bg-dark">Average</td>
+            <td className="text-center text-white bg-dark">Remarks</td>
           </tr>
-          {coreFunctions?.map((coreFunc) => (
-            <React.Fragment key={coreFunc?.id}>
+
+          {/*==================================== core functions ==========================================*/}
+          {coreFunctions?.map((cf) => (
+            <React.Fragment key={cf?.id}>
               <tr>
-                <td>
-                  <h6 className="m-0">
-                    {coreFunc?.title} ({coreFunc?.percentage}%)
-                  </h6>
-                  {coreFunc?.description && (
-                    <Description>{coreFunc?.description}</Description>
-                  )}
-                </td>
-                <td colSpan={2}></td>
+                {/* core function title */}
+                <TableData colSpan={8}>
+                  <Title>
+                    {cf?.title} - ({cf?.percentage}%){" "}
+                  </Title>
+                  {/* function description */}
+                  <p className="m-0"> {cf?.description}</p>
+                </TableData>
               </tr>
-              {coreFunc?.successIndicators?.map((successIndicator) => (
-                <tr key={successIndicator?.id}>
+              {cf?.successIndicators.map((sIn) => (
+                <tr key={sIn?.id}>
                   <td></td>
-                  <td>{successIndicator.title}</td>
-                  <td>{successIndicator?.actualAccomplishments?.title}</td>
+                  <TableData>
+                    {sIn?.title}
+                    <p className="m-0">{sIn?.description}</p>
+                  </TableData>
+                  {/* actual accomplishments */}
+                  <td>
+                    {sIn?.actualAccomplishments?.title && (
+                      <Accomplishment>
+                        <p className="m-0">
+                          {sIn?.actualAccomplishments?.title}
+                        </p>
+                        <p className="m-0">
+                          {sIn?.actualAccomplishments?.description}
+                        </p>
+                      </Accomplishment>
+                    )}
+                  </td>
+                  {/* quality timeliness efficiency */}
+                  {/* ================ quality ======================== */}
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.quality}
+                  </td>
+                  {/* ============================= timelines =========================== */}
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.timeliness}
+                  </td>
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.efficiency}
+                  </td>
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.average.toFixed(2)}
+                  </td>
+                  {/* remarks */}
+                  <td>{sIn?.remarks}</td>
                 </tr>
               ))}
             </React.Fragment>
           ))}
 
-          {/* support functions */}
+          {/* ============================== support functions ==================================*/}
           <tr>
-            <td colSpan={3} className="bg-dark text-white">
+            <td colSpan={8} className="text-white bg-dark">
               Support Functions - 10%
             </td>
           </tr>
-          {supportFunctions?.map((supportFunc) => (
-            <React.Fragment key={supportFunc?.id}>
+          {supportFunctions?.map((sf) => (
+            <React.Fragment key={sf?.id}>
               <tr>
-                <td colSpan={3}>
-                  <h6>
-                    {supportFunc?.title} ({supportFunc?.percentage}%)
-                  </h6>
-                  {supportFunc?.description && (
-                    <Description>{supportFunc?.description}</Description>
-                  )}
-                </td>
+                <TableData colSpan={8}>
+                  <Title>
+                    {sf?.title} - ({sf?.percentage}%)
+                  </Title>
+                  <p className="m-0">{sf?.description}</p>
+                </TableData>
               </tr>
-              {supportFunc?.successIndicators?.map((successIndicator) => (
-                <tr key={successIndicator?.id}>
+              {sf?.successIndicators.map((sIn) => (
+                <tr key={sIn?.id}>
                   <td></td>
-                  <td>
-                    <Description>{successIndicator.title} </Description>
+                  <TableData>
+                    {sIn?.title}
+                    <p className="m-0">{sIn?.description}</p>
+                  </TableData>
+                  {/* actual accomplishment */}
+                  <td>{sIn?.actualAccomplishments?.title}</td>
+                  {/* quality timeliness efficiency */}
+                  {/* ========================= quality ================================== */}
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.quality}
                   </td>
-                  <td>
-                    <Description>
-                      {successIndicator?.actualAccomplishments?.title}{" "}
-                    </Description>
+                  {/* =========================== timeliness  =========================*/}
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.timeliness}
                   </td>
+                  {/* =========================== Efficiency  =========================*/}
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.efficiency}
+                  </td>
+                  <td className="text-center">
+                    {sIn?.actualAccomplishments?.rating?.average.toFixed(2)}
+                  </td>
+                  {/* remarks */}
+                  <td>{sIn?.remarks}</td>
                 </tr>
               ))}
             </React.Fragment>
           ))}
+
+          {/* ======================= rating summary ========================= */}
+          <RatingSummary
+            id={_id}
+            coreFunctions={coreFunctions}
+            supportFunctions={supportFunctions}
+          />
         </tbody>
       </Table>
-
-      {/* Rating Summary */}
-      <Table bordered className="mt-2">
-        <tbody>
-          {/* heading */}
-          <tr>
-            <td>Summary of Ratings</td>
-            <td className="text-center">Average</td>
-            <td className="text-center">Percent</td>
-            <td className="text-center">Score</td>
-          </tr>
-          {/* indicator */}
-          <tr className="text-center">
-            <td colSpan={4} className="bg-secondary text-white">
-              Core Functions
-            </td>
-          </tr>
-
-          {/* core functions */}
-          {coreFunctions?.map((coreFunc) => (
-            <tr>
-              <td>{coreFunc?.title}</td>
-              <td className="text-center">
-                {(
-                  coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
-                  coreFunc?.rawAverage?.length
-                ).toFixed(2)}
-              </td>
-              <td className="text-center">{coreFunc?.percentage}%</td>
-              <td className="text-center">
-                {(
-                  (coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
-                    coreFunc?.rawAverage?.length) *
-                  (coreFunc?.percentage / 100)
-                ).toFixed(2)}
-              </td>
-            </tr>
-          ))}
-
-          <tr className="text-center">
-            <td colSpan={4} className="bg-secondary text-white">
-              Support Functions
-            </td>
-          </tr>
-
-          {/* support functions */}
-          {supportFunctions?.map((suppFunc) => (
-            <tr>
-              <td>{suppFunc?.title}</td>
-              <td className="text-center">
-                {(
-                  suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
-                  suppFunc?.rawAverage?.length
-                ).toFixed(2)}
-              </td>
-              <td className="text-center">{suppFunc?.percentage}%</td>
-              <td className="text-center">
-                {(
-                  (suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr) /
-                    suppFunc?.rawAverage?.length) *
-                  (suppFunc?.percentage / 100)
-                ).toFixed(2)}
-              </td>
-            </tr>
-          ))}
-          <tr className="text-center bg-secondary text-white">
-            <td colSpan={4}>Ratings</td>
-          </tr>
-
-          <tr>
-            <td colSpan={2}>Final Rating</td>
-            <td className="text-center">100%</td>
-            <td className="text-center">{finalRating}</td>
-          </tr>
-          <tr>
-            <td colSpan={2}>Adjectival Rating</td>
-            <td colSpan={2} className="text-center">
-              {getRemarks(finalRating)}
-            </td>
-          </tr>
-        </tbody>
-      </Table>
-      <div className="">
-        <h5>Comments and Recommendations</h5>
-        <p className="ms-2">{response?.isApproved?.recommendation}</p>
-      </div>
+      {attachments?.map((attachment) => (
+        <Attachment info={attachment} onNavigate={handleNavigate} />
+      ))}
     </Container>
   );
 }
 
 const Container = styled.div`
-  padding: 1rem;
-`;
-
-const Description = styled.p`
-  max-width: 40ch;
+  padding: 0.5rem;
 `;
 
 const LogoImage = styled.img`
@@ -224,4 +198,24 @@ const Header = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 2rem;
+`;
+
+const IconContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+`;
+
+const TableData = styled.td`
+  cursor: pointer;
+`;
+
+const Title = styled.div`
+  font-weight: 500;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+`;
+
+const Accomplishment = styled.div`
+  cursor: pointer;
 `;

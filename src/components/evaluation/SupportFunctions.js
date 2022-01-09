@@ -37,13 +37,13 @@ export default function SupportFunctions() {
           <tr className="text-center">
             <td className="p-3">Statement of Functions</td>
             <td className="p-3">Success Indicators (Target Measure)</td>
-            <td className="p-3" colSpan={3}>
-              Actual Accomplishments
-            </td>
+            <td className="p-3">Actual Accomplishments</td>
+            <td></td>
+            <td></td>
           </tr>
           {/* content */}
           <tr>
-            <td className="p-3" colSpan={3}>
+            <td className="p-3" colSpan={4}>
               Support Functions - 10%
             </td>
             <td className="p-3 text-center" colSpan={2}>
@@ -55,7 +55,10 @@ export default function SupportFunctions() {
           {supportFunctions?.map((suppFunc) => (
             <React.Fragment key={suppFunc?.id}>
               <tr key={suppFunc?.id}>
-                <td className="p-3">
+                <td
+                  className="p-3 align-top"
+                  rowSpan={suppFunc?.successIndicators?.length + 1}
+                >
                   <h6 className="m-0">
                     {suppFunc?.title} ({suppFunc?.percentage}%)
                   </h6>
@@ -95,7 +98,6 @@ export default function SupportFunctions() {
               </tr>
               {suppFunc?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
-                  <td className="p-3"></td>
                   <td className="p-3">
                     <Description>{successIndicator?.title}</Description>
                   </td>
@@ -141,6 +143,7 @@ export default function SupportFunctions() {
           ))}
         </tbody>
       </Table>
+
       {/* modal */}
       <CustomModal
         heading="Support Functions"
@@ -170,12 +173,6 @@ export default function SupportFunctions() {
 }
 
 const Container = styled.div``;
-
-const TableHeader = styled.h5`
-  margin: 0;
-  font-weight: 500;
-  text-transform: capitalize;
-`;
 
 const Description = styled.p`
   max-width: 35ch;

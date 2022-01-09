@@ -34,12 +34,12 @@ export default function CoreFunctions() {
           <tr className="text-center">
             <td className="p-3">Statement of Functions</td>
             <td className="p-3">Success Indicators (Target Measure)</td>
-            <td className="p-3" colSpan={4}>
-              Actual Accomplishment
-            </td>
+            <td className="p-3">Actual Accomplishment</td>
+            <td></td>
+            <td></td>
           </tr>
           <tr>
-            <td className="p-3" colSpan={3}>
+            <td className="p-3" colSpan={4}>
               <TableIndicator>Core Functions - 90%</TableIndicator>
             </td>
             <td className="p-3 text-center" colSpan={2}>
@@ -52,7 +52,10 @@ export default function CoreFunctions() {
           {evaluation?.coreFunctions?.map((func) => (
             <React.Fragment key={func?.id}>
               <tr>
-                <TableData className="p-3">
+                <TableData
+                  className="p-3"
+                  rowSpan={func?.successIndicators?.length + 1}
+                >
                   <h6 className="m-0">
                     <Description>
                       {func?.title} ({func.percentage}%)
@@ -90,7 +93,6 @@ export default function CoreFunctions() {
               </tr>
               {func?.successIndicators?.map((successIndicator) => (
                 <tr key={successIndicator?.id}>
-                  <td></td>
                   <td className="p-3">
                     <Description>{successIndicator?.title} </Description>
                   </td>
@@ -168,6 +170,7 @@ const Container = styled.div``;
 const TableData = styled.td`
   cursor: pointer;
   text-transform: capitalize;
+  vertical-align: top;
 `;
 
 const TableIndicator = styled.div`

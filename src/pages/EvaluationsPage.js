@@ -3,8 +3,12 @@ import styled from "styled-components";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
+import { templatesReceived } from "../store/templates";
 import { EvaluationCard } from "../components";
+
+import templatesApi from "../api/templates";
 import evaluationsApi from "../api/evaluations";
+
 import {
   evaluationsReceived,
   evaluationsRequested,
@@ -22,6 +26,7 @@ export default function EvaluationsPage({ history }) {
 
   useEffect(() => {
     getEvaluationsList();
+    getTemplates();
   }, []);
 
   const handleViewMore = (id) => history.push(`/dashboard/evaluations/${id}`);
@@ -33,6 +38,15 @@ export default function EvaluationsPage({ history }) {
       return dispatch(evaluationsReceived(evaluations.data));
     } catch (error) {
       return dispatch(evaluationsRequestFailed(error));
+    }
+  };
+
+  const getTemplates = async () => {
+    try {
+      const templates = await templatesApi.getTemplates();
+      dispatch(templatesReceived(templates.data));
+    } catch (error) {
+      console.log(error);
     }
   };
 
