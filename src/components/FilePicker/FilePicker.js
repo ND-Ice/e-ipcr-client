@@ -6,11 +6,14 @@ import Confirmation from "../templates/Confirmation";
 import FileInput from "./FileInput";
 import SelectedFile from "./SelectedFile";
 
-export default function FilePicker({ id }) {
+export default function FilePicker({ id, template }) {
   const [selected, setSelected] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const handleAdd = (e) => setSelected([...selected, e.target.files[0]]);
+  const handleAdd = (e) => {
+    if (e.target.files[0]) return setSelected([...selected, e.target.files[0]]);
+  };
+
   const handleDelete = (name) =>
     setSelected(selected.filter((file) => file.name !== name));
 
@@ -29,7 +32,7 @@ export default function FilePicker({ id }) {
         Submit
       </Button>
       <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
-        <Confirmation files={selected} id={id} />
+        <Confirmation files={selected} id={id} template={template} />
       </Modal>
     </Container>
   );

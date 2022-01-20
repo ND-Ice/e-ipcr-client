@@ -21,6 +21,7 @@ const slice = createSlice({
       state.funcId = funcId;
       state.succId = succId;
     },
+
     // =================== core function =====================//
     addCoreFunctionRemarks: (state, action) => {
       const { currentId, funcId, succId, remarks } = action.payload;
@@ -364,6 +365,26 @@ const slice = createSlice({
       succ.actualAccomplishments.title = "";
       succ.actualAccomplishments.description = "";
     },
+
+    // unsubmit
+    unSubmit: (state, action) => {
+      const {
+        responseId,
+        coreFunctions,
+        supportFunctions,
+        coreFunctionsMeasure,
+        supportFunctionsMeasure,
+      } = action.payload;
+      const responseIdx = state.list.findIndex(
+        (response) => response._id === responseId
+      );
+
+      const response = state.list[responseIdx];
+      response.coreFunctions = coreFunctions;
+      response.supportFunctions = supportFunctions;
+      response.coreFunctionsMeasure = coreFunctionsMeasure;
+      response.supportFunctionsMeasure = supportFunctionsMeasure;
+    },
   },
 });
 
@@ -371,6 +392,7 @@ export const {
   templatesReceived,
   setCurrentId,
   setTargetIndicator,
+  unSubmit,
 
   // core function
   addCoreFunctionRemarks,

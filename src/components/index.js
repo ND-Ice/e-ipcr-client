@@ -24,3 +24,6 @@ export { default as ProfileItem } from "./ProfileItem";
 export { default as UpdateBasicInformation } from "./UpdateBasicInformation";
 export { default as UpdatePrimaryInfo } from "./UpdatePrimaryInfo";
 export { default as ProtectedRoute } from "./ProtectedRoute";
+export { default as Feedback } from "./Feedback";
+export { default as FeedBacks } from "./FeedBacks";
+export { default as CommentItem } from "./CommentItem";

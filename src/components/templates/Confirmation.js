@@ -1,29 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Button, Alert } from "react-bootstrap";
 import { FiCheckCircle } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
+import SignaturePad from "react-signature-canvas";
 
 import { getTemplates } from "../../store/templates";
 import { getEvaluations } from "../../store/evaluations";
 import { getUser } from "../../store/user";
 import responseApi from "../../api/response";
 
-export default function Confirmation({ files, id }) {
+export default function Confirmation({ files, id, template }) {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const { list } = useSelector(getTemplates);
   const { preview } = useSelector(getEvaluations);
   const { currentUser } = useSelector(getUser);
+  let sigPadRef = useRef({});
+  const { createdBy, signature } = template?.generatedBy;
 
   const {
     coreFunctions,
     supportFunctions,
     coreFunctionsMeasure,
     supportFunctionsMeasure,
-  } = list?.filter((template) => template._id === id)[0];
+  } = list?.filter((template) => template?._id === id)[0];
+
+  const coreFuncRating = coreFunctions?.map((coreFunc) => {
+    const ave = coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    return (
+      (ave / coreFunc?.successIndicators?.length) * (coreFunc?.percentage / 100)
+    );
+  });
+
+  // get the support functions rating
+  const supportFuncRating = supportFunctions?.map((suppFunc) => {
+    const ave = suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    return (
+      (ave / suppFunc?.successIndicators?.length) * (suppFunc?.percentage / 100)
+    );
+  });
+
+  const finalRating = [...supportFuncRating, ...coreFuncRating]
+    .reduce((acc, curr) => acc + curr, 0)
+    .toFixed(2);
 
   const handleSubmit = async () => {
     try {
@@ -31,15 +53,22 @@ export default function Confirmation({ files, id }) {
       await responseApi.submitResponse(
         preview?._id,
         currentUser?._id,
+        currentUser,
+        id,
         coreFunctions,
         supportFunctions,
         coreFunctionsMeasure,
         supportFunctionsMeasure,
-        files
+        files,
+        finalRating,
+        sigPadRef.current.getTrimmedCanvas().toDataURL(),
+        createdBy,
+        signature
       );
       setLoading(false);
       return history.goBack();
     } catch (error) {
+      console.log(error);
       setLoading(false);
       return setErrorMessage(error);
     }
@@ -59,6 +88,27 @@ export default function Confirmation({ files, id }) {
         following targets in accordance with the indicated measures for the
         period <strong> January to December {preview?.targetYear}.</strong>
       </span>
+      {/* signature pad  */}
+      <h6 className="mt-3">Draw your Signature here:</h6>
+      <SigPad>
+        <SignaturePad
+          penColor="black"
+          ref={sigPadRef}
+          canvasProps={{
+            width: 450,
+            height: 200,
+            className: "sigCanvas",
+            border: "2px solid black",
+          }}
+        />
+      </SigPad>
+      <Button
+        variant="outline-danger"
+        className="me-2"
+        onClick={() => sigPadRef.current.clear()}
+      >
+        Clear
+      </Button>
       {errorMessage && (
         <Alert variant="danger" className="mt-4">
           {errorMessage?.response?.data ||
@@ -83,4 +133,9 @@ const Container = styled.div`
     margin-right: 0.5rem;
     color: ${({ theme }) => theme.colors.accent.emerald};
   }
+`;
+
+const SigPad = styled.div`
+  margin-bottom: 1rem;
+  border: 1px solid ${({ theme }) => theme.colors.accent.blue};
 `;

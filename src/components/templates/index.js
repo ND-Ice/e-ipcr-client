@@ -17,3 +17,5 @@ export { default as AddSupportRating } from "./AddSupportRating";
 export { default as RatingSummary } from "./RatingSummary";
 export { default as AddCoreFunctionRemarks } from "./AddCoreFunctionRemarks";
 export { default as AddSupportFunctionRemarks } from "./AddSupportFunctionRemarks";
+export { default as EditCoreRemarks } from "./EditCoreRemarks";
+export { default as Sygnatory } from "./Signatory";

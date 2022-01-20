@@ -1,11 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Modal } from "react-bootstrap";
-import { FiPlus } from "react-icons/fi";
-import { useDispatch } from "react-redux";
 
-import { TemplateIcon, AddComments } from ".";
-import { getTemplates } from "../../store/templates";
 import { getRemarks } from "../../utils";
 
 export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
@@ -42,76 +37,66 @@ export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
       <tr>
         <td colSpan={8}></td>
       </tr>
-      <tr>
-        <td colSpan={3}>
-          <Title>Rating Summary</Title>
+      <tr className="text-uppercase">
+        <td colSpan={3} className="fw-bold">
+          Rating Summary
         </td>
-        <td className="text-center" colSpan={2}>
-          Average
-        </td>
-        <td className="text-center" colSpan={2}>
+        <td className="text-center fw-bold">Average</td>
+        <td className="text-center fw-bold" colSpan={2}>
           Percent
         </td>
-        <td className="text-center">Score</td>
-      </tr>
-      <tr>
-        <td colSpan={3} className="text-white bg-dark">
-          Core Functions (90%)
+        <td className="text-center fw-bold" colSpan={2}>
+          Score
         </td>
-        <td colSpan={2} className="text-white bg-dark"></td>
-        <td colSpan={2} className="text-white bg-dark"></td>
-        <td className="text-white bg-dark"></td>
+      </tr>
+      <tr className="bg-warning text-white fw-bold text-uppercase">
+        <td colSpan={3}>Core Functions (90%)</td>
+        <td></td>
+        <td colSpan={2}></td>
+        <td colSpan={2}></td>
       </tr>
       {/* core Functions */}
       {coreFunctions.map((cf) => (
         <tr key={cf?.id}>
           <td colSpan={3}>{cf?.title}</td>
-          <td className="text-center" colSpan={2}>
-            {(
-              cf?.rawAverage.reduce((acc, curr) => acc + curr, 0) /
-              cf?.rawAverage?.length
-            ).toFixed(2)}
-          </td>
+          <td className="text-center"></td>
           <td className="text-center" colSpan={2}>
             {cf?.percentage}%
           </td>
-          <td className="text-center">
-            {(
-              (cf?.rawAverage.reduce((acc, curr) => acc + curr, 0) /
-                cf?.rawAverage?.length) *
-              (cf?.percentage / 100)
-            ).toFixed(2)}
+          <td className="text-center" colSpan={2}>
+            {cf?.rawAverage?.length !== 0
+              ? (
+                  (cf?.rawAverage.reduce((acc, curr) => acc + curr, 0) /
+                    cf?.rawAverage?.length) *
+                  (cf?.percentage / 100)
+                ).toFixed(2)
+              : ""}
           </td>
         </tr>
       ))}
-      <tr>
-        <td colSpan={3} className="text-white bg-dark">
-          Support Functions (90%)
-        </td>
-        <td colSpan={2} className="text-white bg-dark"></td>
-        <td colSpan={2} className="text-white bg-dark"></td>
-        <td className="text-white bg-dark"></td>
+      <tr className="bg-warning text-white fw-bold text-uppercase">
+        <td colSpan={3}>Support Functions (90%)</td>
+        <td></td>
+        <td colSpan={2}></td>
+        <td colSpan={2}></td>
       </tr>
 
       {/* support functions */}
       {supportFunctions.map((sf) => (
         <tr key={sf?.id}>
           <td colSpan={3}>{sf?.title}</td>
-          <td className="text-center" colSpan={2}>
-            {(
-              sf?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
-              sf?.rawAverage?.length
-            ).toFixed(2)}
-          </td>
+          <td></td>
           <td className="text-center" colSpan={2}>
             {sf?.percentage}%
           </td>
-          <td className="text-center">
-            {(
-              (sf?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
-                sf?.rawAverage?.length) *
-              (sf?.percentage / 100)
-            ).toFixed(2)}
+          <td className="text-center" colSpan={2}>
+            {sf?.rawAverage?.length !== 0
+              ? (
+                  (sf?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
+                    sf?.rawAverage?.length) *
+                  (sf?.percentage / 100)
+                ).toFixed(2)
+              : ""}
           </td>
         </tr>
       ))}
@@ -119,32 +104,24 @@ export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
         <td colSpan={8}></td>
       </tr>
       <tr>
-        <td colSpan={5}>
-          <Title>Final Average Rating</Title>
+        <td colSpan={4} className="fw-bold">
+          Final Average Rating
         </td>
-        <td className="text-center" colSpan={2}>
+        <td className="text-center fw-bold" colSpan={2}>
           {coreFuncPercentage + supportFuncPercentage}%
         </td>
-        <td className="text-center">{finalRating}</td>
-      </tr>
-      <tr>
-        <td colSpan={3}>
-          <Title>Final Adjectival Rating</Title>
-        </td>
-        <td className="text-center" colSpan={5}>
-          <Title>Verbal Rating</Title>
+        <td className="text-center fw-bold" colSpan={2}>
+          {finalRating}
         </td>
       </tr>
       <tr>
-        <td colSpan={3}></td>
-        <td colSpan={5} className="text-center">
+        <td colSpan={3} className="fw-bold">
+          Final Adjectival Rating
+        </td>
+        <td colSpan={5} className="text-center fw-bold text-uppercase">
           {getRemarks(finalRating)}
         </td>
       </tr>
     </>
   );
 }
-
-const Title = styled.div`
-  font-weight: 500;
-`;

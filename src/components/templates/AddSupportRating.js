@@ -44,8 +44,16 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
         <h5>Add Rating</h5>
       </Header>
 
-      <h6>{successIndicator?.title}</h6>
-      <p>{successIndicator?.description}</p>
+      <div className="mb-4">
+        <h6 className="m-0">{successIndicator?.title}</h6>
+        <p>{successIndicator?.description}</p>
+      </div>
+      <div className="mb-4">
+        <h6 className="m-0">
+          {successIndicator?.actualAccomplishments?.title}
+        </h6>
+        <p>{successIndicator?.actualAccomplishments?.description}</p>
+      </div>
 
       <AppForm
         initialValues={{ quality: "", timeliness: "", efficiency: "" }}

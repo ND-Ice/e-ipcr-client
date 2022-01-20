@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
+import { Button } from "react-bootstrap";
 
 export default function FileInput({ ...otherProps }) {
   const hiddenUploadRef = useRef(null);
@@ -7,8 +8,15 @@ export default function FileInput({ ...otherProps }) {
   const handlePick = () => hiddenUploadRef.current.click();
   return (
     <Container>
-      <CustomInput type="file" ref={hiddenUploadRef} {...otherProps} />
-      <Button onClick={handlePick}>Add Attachment</Button>
+      <CustomInput
+        type="file"
+        ref={hiddenUploadRef}
+        {...otherProps}
+        accept="application/pdf,image/*"
+      />
+      <Button className="mb-2" variant="outline-primary" onClick={handlePick}>
+        Add Attachment
+      </Button>
     </Container>
   );
 }
@@ -19,11 +27,4 @@ const Container = styled.div`
 
 const CustomInput = styled.input`
   display: none;
-`;
-
-const Button = styled.button`
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  outline: 0;
-  border: 0;
 `;
