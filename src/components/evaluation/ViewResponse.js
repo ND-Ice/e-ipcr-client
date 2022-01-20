@@ -22,7 +22,7 @@ export default function ViewResponse({ response, open }) {
   const handleClose = () => open(false);
 
   const handleNavigate = (path) =>
-    window.open(`https://e-ipcr-backend/${path}`, " _blank");
+    window.open(`https://e-ipcr-backend.herokuapp.com/${path}`, " _blank");
 
   return (
     <Container>
