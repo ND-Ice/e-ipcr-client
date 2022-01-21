@@ -26,6 +26,8 @@ const SignatureWrapper = styled.div`
   text-align: center;
   position: relative;
   font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
 
   img {
     height: 70px;
@@ -42,6 +44,7 @@ const SignatureWrapper = styled.div`
     top: calc(100% + 5px);
     left: 50%;
     transform: translateX(-50%);
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 0.8rem;
   }
 `;
