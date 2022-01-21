@@ -31,6 +31,7 @@ const SignatureWrapper = styled.div`
   font-size: 1.2rem;
   font-weight: 700;
   margin-right: 4rem;
+  text-transform: uppercase;
 
   img {
     position: absolute;
@@ -60,6 +61,7 @@ const DataWrapper = styled.div`
   text-align: center;
   font-weight: 700;
   font-size: 1.2rem;
+  text-transform: uppercase;
 
   ::after {
     content: "DATE";

@@ -31,8 +31,7 @@ export default function Respondent({ response }) {
               {response?.signatures?.userSignature && (
                 <img src={response?.signatures?.userSignature} />
               )}
-              {user?.name?.firstName}
-              {user?.name?.lastName}
+              {user?.name?.firstName} {user?.name?.lastName}
             </Signature>
             <DateSubmitted>
               {moment(parseInt(response?.dateSubmitted)).format("LL")}
@@ -60,6 +59,7 @@ const DateSubmitted = styled.div`
   position: relative;
   font-weight: 700;
   font-size: 1.2rem;
+  text-transform: uppercase;
 
   ::before {
     content: "DATE";
@@ -81,6 +81,7 @@ const Signature = styled.div`
   text-align: center;
   font-weight: 700;
   font-size: 1.2rem;
+  text-transform: uppercase;
 
   > img {
     object-fit: cover;

@@ -32,6 +32,7 @@ const SignatureWrapper = styled.div`
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
+  text-transform: uppercase;
 
   img {
     height: 50px;
@@ -59,6 +60,7 @@ const DateWrapper = styled.div`
   padding: 0.2rem;
   border-bottom: 2px solid #000000;
   margin-right: 3rem;
+  text-transform: uppercase;
 
   ::after {
     content: "DATE";
