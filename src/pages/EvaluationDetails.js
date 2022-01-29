@@ -19,6 +19,7 @@ import responseApi from "../api/response";
 import ViewResponse from "../components/evaluation/ViewResponse";
 import { unSubmit } from "../store/templates";
 import FeedBacks from "../components/FeedBacks";
+import Loader from "../components/Loader";
 
 export default function EvaluationDetails({ match, history }) {
   const id = match.params.id;
@@ -29,6 +30,7 @@ export default function EvaluationDetails({ match, history }) {
   const [evaluationResponse, setEvaluatonResponse] = useState(null);
   const [showYourResponse, setShowYourResponse] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
 
   const yourResponse = evaluationResponse?.filter(
     (response) => response?.userId === user?.currentUser?._id
@@ -51,9 +53,12 @@ export default function EvaluationDetails({ match, history }) {
 
   const fetchEvaluationResponse = async () => {
     try {
+      setFetching(true);
       const response = await responseApi.getEvaluationResponse(id);
-      return setEvaluatonResponse(response.data);
+      setEvaluatonResponse(response.data);
+      return setFetching(false);
     } catch (error) {
+      setLoading(false);
       return console.log(error);
     }
   };
@@ -83,68 +88,72 @@ export default function EvaluationDetails({ match, history }) {
 
   return (
     <>
-      <AppContainer>
-        <div>
-          <Title>
-            Individual Performance Commitment Review (IPCR){" "}
-            <strong>
-              {evaluation?.targetYear - 1}-{evaluation?.targetYear}
-            </strong>
-          </Title>
+      {fetching ? (
+        <Loader />
+      ) : (
+        <AppContainer>
+          <div>
+            <Title>
+              Individual Performance Commitment Review (IPCR){" "}
+              <strong>
+                {evaluation?.targetYear - 1}-{evaluation?.targetYear}
+              </strong>
+            </Title>
 
-          {/* due date */}
-          <DueDate>
-            <FiCalendar className="icon" />{" "}
-            {moment(evaluation?.due).format("LL")}
-          </DueDate>
+            {/* due date */}
+            <DueDate>
+              <FiCalendar className="icon" />{" "}
+              {moment(evaluation?.due).format("LL")}
+            </DueDate>
 
-          {yourResponse && (
-            <Alert className="mt-4" variant="success">
-              We received your response.
-            </Alert>
-          )}
-          {yourResponse && !yourResponse.isApproved && (
-            <Alert variant="warning">
-              Your evaluation is now in the queue to evaluate
-            </Alert>
-          )}
-          {yourResponse?.isApproved && (
-            <Alert variant="dark">
-              Your response is already evaluated by the evaluator, resubmission
-              and unsibmission is no longer available.
-            </Alert>
-          )}
-          {yourResponse && (
-            <Button onClick={() => setShowYourResponse(true)}>
-              View Response
-            </Button>
-          )}
+            {yourResponse && (
+              <Alert className="mt-4" variant="success">
+                We received your response.
+              </Alert>
+            )}
+            {yourResponse && !yourResponse.isApproved && (
+              <Alert variant="warning">
+                Your evaluation is now in the queue to evaluate
+              </Alert>
+            )}
+            {yourResponse?.isApproved && (
+              <Alert variant="dark">
+                Your response is already evaluated by the evaluator,
+                resubmission and unsibmission is no longer available.
+              </Alert>
+            )}
+            {yourResponse && (
+              <Button onClick={() => setShowYourResponse(true)}>
+                View Response
+              </Button>
+            )}
 
-          {!yourResponse && (
-            <Button
-              className="mt-4"
-              onClick={() => history.push(`/dashboard/create-response/${id}`)}
-            >
-              Create Response
-            </Button>
-          )}
+            {!yourResponse && (
+              <Button
+                className="mt-4"
+                onClick={() => history.push(`/dashboard/create-response/${id}`)}
+              >
+                Create Response
+              </Button>
+            )}
 
-          {yourResponse && (
-            <Button
-              disabled={yourResponse?.isApproved}
-              className="ms-2"
-              onClick={handleUnSubmit}
-            >
-              Unsubmit
-            </Button>
-          )}
-        </div>
-        {yourResponse?.isApproved &&
-          yourResponse?.feedback?.title?.length !== 0 &&
-          yourResponse?.feedback?.comments?.list?.length !== 0 && (
-            <FeedBacks feedbacks={yourResponse?.feedback} />
-          )}
-      </AppContainer>
+            {yourResponse && (
+              <Button
+                disabled={yourResponse?.isApproved}
+                className="ms-2"
+                onClick={handleUnSubmit}
+              >
+                Unsubmit
+              </Button>
+            )}
+          </div>
+          {yourResponse?.isApproved &&
+            yourResponse?.feedback?.title?.length !== 0 &&
+            yourResponse?.feedback?.comments?.list?.length !== 0 && (
+              <FeedBacks feedbacks={yourResponse?.feedback} />
+            )}
+        </AppContainer>
+      )}
 
       {/* modals */}
       <Modal

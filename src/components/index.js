@@ -27,3 +27,4 @@ export { default as ProtectedRoute } from "./ProtectedRoute";
 export { default as Feedback } from "./Feedback";
 export { default as FeedBacks } from "./FeedBacks";
 export { default as CommentItem } from "./CommentItem";
+export { default as Loader } from "./Loader";

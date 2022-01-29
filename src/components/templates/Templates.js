@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Modal, Table } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { FiPlus } from "react-icons/fi";
+import { Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
-import { getTemplates, setTargetIndicator } from "../../store/templates";
+import { getTemplates } from "../../store/templates";
 import { getUser } from "../../store/user";
 
 import FilePicker from "../FilePicker/FilePicker";
