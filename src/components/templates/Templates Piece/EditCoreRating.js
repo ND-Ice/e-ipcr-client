@@ -2,13 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import * as Yup from "yup";
-import {
-  getTemplates,
-  rateCoreFunction,
-  rateSupportFunction,
-} from "../../store/templates";
+import { getTemplates, rateCoreFunction } from "../../../store/templates";
 
-import { AppForm, FormControl } from "../forms";
+import { AppForm, FormControl } from "../../forms";
 
 const validationSchema = Yup.object().shape({
   quality: Yup.number().required("This Field is required."),
@@ -38,24 +34,27 @@ const efficiency = [
   { id: "e5", value: 1, label: "Poor" },
 ];
 
-export default function AddSupportRating({ id, supportFunctions, open }) {
+export default function EditCoreRating({ id, coreFunctions, open }) {
   const { funcId, succId } = useSelector(getTemplates);
   const dispatch = useDispatch();
 
-  const supportFunction = supportFunctions?.filter((cf) => cf.id === funcId)[0];
-  const successIndicator = supportFunction?.successIndicators?.filter(
+  const coreFunction = coreFunctions?.filter((cf) => cf.id === funcId)[0];
+  const successIndicator = coreFunction?.successIndicators?.filter(
     (succ) => succ.id === succId
   )[0];
 
+  const { rating } = successIndicator?.actualAccomplishments;
+  console.log(rating);
+
   const handleSubmit = (values) => {
-    dispatch(rateSupportFunction({ currentId: id, funcId, succId, ...values }));
+    dispatch(rateCoreFunction({ currentId: id, funcId, succId, ...values }));
     return open(false);
   };
 
   return (
     <Container>
       <Header>
-        <h5>Add Rating</h5>
+        <h5>Edit Rating</h5>
       </Header>
 
       <div className="mb-4">
@@ -70,27 +69,31 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
       </div>
 
       <AppForm
-        initialValues={{ quality: "", timeliness: "", efficiency: "" }}
+        initialValues={{
+          quality: rating?.quality || "",
+          timeliness: rating?.timeliness || "",
+          efficiency: rating?.efficiency || "",
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <GridContainer>
           <FormControl
             variant="radio"
-            name="quality"
             title="Quality"
+            name="quality"
             menuItems={quality}
           />
           <FormControl
             variant="radio"
-            name="timeliness"
             title="Timeliness"
+            name="timeliness"
             menuItems={timeliness}
           />
           <FormControl
             variant="radio"
-            name="efficiency"
             title="Efficiency"
+            name="efficiency"
             menuItems={efficiency}
           />
         </GridContainer>
@@ -104,15 +107,16 @@ const Container = styled.div`
   padding: 1.5rem;
 `;
 
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(3, 1fr);
-`;
-
 const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
 `;

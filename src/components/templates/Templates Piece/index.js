@@ -11,3 +11,4 @@ export { default as CoreRating } from "./CoreRating";
 export { default as SupportRating } from "./SupportRating";
 export { default as CoreRemarks } from "./CoreRemarks";
 export { default as SupportRemarks } from "./SupportRemarks";
+export { default as EditCoreRating } from "./EditCoreRating";

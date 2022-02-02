@@ -12,12 +12,26 @@ const validationSchema = Yup.object().shape({
   efficiency: Yup.number().required("This Field is required."),
 });
 
-const ratingScale = [
-  { id: 1, value: 5 },
-  { id: 2, value: 4 },
-  { id: 3, value: 3 },
-  { id: 4, value: 2 },
-  { id: 5, value: 1 },
+const quality = [
+  { id: "q1", value: 5, label: "Outstanding" },
+  { id: "q2", value: 4, label: "Very Satisfactory" },
+  { id: "q3", value: 3, label: "Satisfactory" },
+  { id: "q4", value: 2, label: "Unsatisfactory" },
+  { id: "q5", value: 1, label: "Poor" },
+];
+const timeliness = [
+  { id: "t1", value: 5, label: "Outstanding" },
+  { id: "t2", value: 4, label: "Very Satisfactory" },
+  { id: "t3", value: 3, label: "Satisfactory" },
+  { id: "t4", value: 2, label: "Unsatisfactory" },
+  { id: "t5", value: 1, label: "Poor" },
+];
+const efficiency = [
+  { id: "e1", value: 5, label: "Outstanding" },
+  { id: "e2", value: 4, label: "Very Satisfactory" },
+  { id: "e3", value: 3, label: "Satisfactory" },
+  { id: "e4", value: 2, label: "Unsatisfactory" },
+  { id: "e5", value: 1, label: "Poor" },
 ];
 
 export default function AddCoreRating({ id, coreFunctions, open }) {
@@ -58,22 +72,22 @@ export default function AddCoreRating({ id, coreFunctions, open }) {
       >
         <GridContainer>
           <FormControl
-            variant="select"
-            name="quality"
+            variant="radio"
             title="Quality"
-            menuItems={ratingScale}
+            name="quality"
+            menuItems={quality}
           />
           <FormControl
-            variant="select"
-            name="timeliness"
+            variant="radio"
             title="Timeliness"
-            menuItems={ratingScale}
+            name="timeliness"
+            menuItems={timeliness}
           />
           <FormControl
-            variant="select"
-            name="efficiency"
+            variant="radio"
             title="Efficiency"
-            menuItems={ratingScale}
+            name="efficiency"
+            menuItems={efficiency}
           />
         </GridContainer>
         <FormControl variant="button" title="Rate" className="mt-2" />
@@ -86,15 +100,16 @@ const Container = styled.div`
   padding: 1.5rem;
 `;
 
-const GridContainer = styled.div`
-  display: grid;
-  gap: 0.5rem;
-  grid-template-columns: repeat(3, 1fr);
-`;
-
 const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
+`;
+
+const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
 `;

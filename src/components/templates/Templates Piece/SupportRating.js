@@ -38,6 +38,7 @@ export default function SupportRating({
       </td>
       {/* add support rating */}
       <Modal
+        size="lg"
         show={showAddSupportRating}
         onHide={() => setShowAddSupportRating(false)}
       >

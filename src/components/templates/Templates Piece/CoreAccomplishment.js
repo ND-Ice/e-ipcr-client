@@ -60,6 +60,7 @@ export default function CoreAccomplishment({
       </td>
       {/* add accomplishment */}
       <Modal
+        size="lg"
         show={showAddAccomplishment}
         onHide={() => setShowAddAccomplishment(false)}
       >
@@ -72,6 +73,7 @@ export default function CoreAccomplishment({
 
       {/* edit accomplishment */}
       <Modal
+        size="lg"
         show={showEditAccomplishment}
         onHide={() => setShowEditAccomplishment(false)}
       >
