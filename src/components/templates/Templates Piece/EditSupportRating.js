@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import * as Yup from "yup";
-import { getTemplates, rateSupportFunction } from "../../store/templates";
+import { getTemplates, rateSupportFunction } from "../../../store/templates";
 
-import { AppForm, FormControl } from "../forms";
+import { AppForm, FormControl } from "../../forms";
 
 const validationSchema = Yup.object().shape({
   quality: Yup.number().required("This Field is required."),
@@ -43,6 +43,8 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
     (succ) => succ.id === succId
   )[0];
 
+  const { rating } = successIndicator?.actualAccomplishments;
+
   const handleSubmit = (values) => {
     dispatch(rateSupportFunction({ currentId: id, funcId, succId, ...values }));
     return open(false);
@@ -66,7 +68,11 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
       </div>
 
       <AppForm
-        initialValues={{ quality: "", timeliness: "", efficiency: "" }}
+        initialValues={{
+          quality: rating?.quality || "",
+          timeliness: rating?.timeliness || "",
+          efficiency: rating?.efficiency || "",
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >

@@ -44,7 +44,6 @@ export default function EditCoreRating({ id, coreFunctions, open }) {
   )[0];
 
   const { rating } = successIndicator?.actualAccomplishments;
-  console.log(rating);
 
   const handleSubmit = (values) => {
     dispatch(rateCoreFunction({ currentId: id, funcId, succId, ...values }));
