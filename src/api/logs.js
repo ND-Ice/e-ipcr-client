@@ -1,13 +1,13 @@
 import client from "./client";
 
 const addEvaluationLogs = (
-  evaluatonId,
+  evaluationId,
   actionCreator,
   actionMessage,
   actionTarget
 ) =>
   client.post("/logs", {
-    evaluatonId,
+    evaluationId,
     actionCreator,
     actionMessage,
     actionTarget,
