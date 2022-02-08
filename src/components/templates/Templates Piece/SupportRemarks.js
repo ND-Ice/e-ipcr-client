@@ -19,40 +19,44 @@ export default function SupportRemarks({
 
   return (
     <>
-      <td>
-        {successIndicator?.remarks ? (
-          <Remarks
-            onClick={() => {
-              setShowEditRemarks(true);
-              return dispatch(
-                setTargetIndicator({
-                  funcId: supportFunction?.id,
-                  succId: successIndicator?.id,
-                })
-              );
-            }}
-          >
-            {successIndicator?.remarks}
-          </Remarks>
-        ) : (
-          <div className="text-center">
-            <TemplateIcon
-              icon={FiPlus}
-              fg="#ffffff"
-              bg="#0891b2"
+      {successIndicator?.actualAccomplishments?.title ? (
+        <td>
+          {successIndicator?.remarks ? (
+            <Remarks
               onClick={() => {
-                dispatch(
+                setShowEditRemarks(true);
+                return dispatch(
                   setTargetIndicator({
                     funcId: supportFunction?.id,
                     succId: successIndicator?.id,
                   })
                 );
-                return setShowAddRemarks(true);
               }}
-            />
-          </div>
-        )}
-      </td>
+            >
+              {successIndicator?.remarks}
+            </Remarks>
+          ) : (
+            <div className="text-center">
+              <TemplateIcon
+                icon={FiPlus}
+                fg="#ffffff"
+                bg="#0891b2"
+                onClick={() => {
+                  dispatch(
+                    setTargetIndicator({
+                      funcId: supportFunction?.id,
+                      succId: successIndicator?.id,
+                    })
+                  );
+                  return setShowAddRemarks(true);
+                }}
+              />
+            </div>
+          )}
+        </td>
+      ) : (
+        <td></td>
+      )}
       {/* add support remarks */}
       <Modal show={showAddRemarks} onHide={() => setShowAddRemarks(false)}>
         <AddSupportFunctionRemarks

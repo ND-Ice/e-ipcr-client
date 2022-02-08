@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 
 const slice = createSlice({
@@ -38,9 +38,39 @@ const slice = createSlice({
         state.list[templateIdx].coreFunctions[cfIdx].successIndicators[succIdx];
       succ.remarks = remarks;
     },
-    rateCoreFunction: (state, action) => {
+
+    deleteCoreRating: (state, action) => {
+      const { currentId, funcId, succId } = action.payload;
+      const templateIdx = state.list.findIndex(
+        (template) => template._id === currentId
+      );
+      const cfIdx = state.list[templateIdx].coreFunctions.findIndex(
+        (cf) => cf.id === funcId
+      );
+      const coreFunction = state.list[templateIdx].coreFunctions[cfIdx];
+      const succIdx = coreFunction.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = coreFunction.successIndicators[succIdx];
+      const updatedAverage = coreFunction.rawAverage.filter(
+        (ave) => ave.id !== succId
+      );
+      coreFunction.rawAverage = updatedAverage;
+      succ.actualAccomplishments.rating = {};
+    },
+
+    editCoreRating: (state, action) => {
       const { currentId, funcId, succId, quality, timeliness, efficiency } =
         action.payload;
+
+      const rawScore = [
+        quality && parseInt(quality),
+        timeliness && parseInt(timeliness),
+        efficiency && parseInt(efficiency),
+      ];
+
+      const newRawScore = rawScore.filter((score) => typeof score === "number");
+      const rawAverage = newRawScore.reduce((acc, curr) => acc + curr, 0);
 
       const templateIdx = state.list.findIndex(
         (template) => template._id === currentId
@@ -49,9 +79,16 @@ const slice = createSlice({
       const template = state.list[templateIdx];
       const cfIdx = template.coreFunctions.findIndex((cf) => cf.id === funcId);
       const coreFunction = template.coreFunctions[cfIdx];
-      coreFunction.rawAverage.push(
-        (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3
+
+      const aveIdx = coreFunction.rawAverage.findIndex(
+        (ave) => ave.id === succId
       );
+
+      coreFunction.rawAverage[aveIdx] = {
+        id: succId,
+        average: parseInt(rawAverage) / newRawScore.length,
+      };
+
       const succIdx = coreFunction.successIndicators.findIndex(
         (succ) => succ.id === succId
       );
@@ -60,8 +97,44 @@ const slice = createSlice({
         quality: parseInt(quality),
         timeliness: parseInt(timeliness),
         efficiency: parseInt(efficiency),
-        average:
-          (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3,
+        average: parseInt(rawAverage) / newRawScore.length,
+      };
+    },
+    rateCoreFunction: (state, action) => {
+      const { currentId, funcId, succId, quality, timeliness, efficiency } =
+        action.payload;
+
+      const rawScore = [
+        quality && parseInt(quality),
+        timeliness && parseInt(timeliness),
+        efficiency && parseInt(efficiency),
+      ];
+
+      const newRawScore = rawScore.filter((score) => typeof score === "number");
+      const rawAverage = newRawScore.reduce((acc, curr) => acc + curr, 0);
+
+      const templateIdx = state.list.findIndex(
+        (template) => template._id === currentId
+      );
+
+      const template = state.list[templateIdx];
+      const cfIdx = template.coreFunctions.findIndex((cf) => cf.id === funcId);
+      const coreFunction = template.coreFunctions[cfIdx];
+
+      coreFunction.rawAverage.push({
+        id: succId,
+        average: parseInt(rawAverage) / newRawScore.length,
+      });
+
+      const succIdx = coreFunction.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = coreFunction.successIndicators[succIdx];
+      succ.actualAccomplishments.rating = {
+        quality: parseInt(quality),
+        timeliness: parseInt(timeliness),
+        efficiency: parseInt(efficiency),
+        average: parseInt(rawAverage) / newRawScore.length,
       };
     },
     addCoreFunction: (state, action) => {
@@ -108,6 +181,7 @@ const slice = createSlice({
         actualAccomplishments: {
           title: "",
           description: "",
+          sentiment: "",
           rating: {},
         },
       });
@@ -207,9 +281,38 @@ const slice = createSlice({
         ];
       succ.remarks = remarks;
     },
-    rateSupportFunction: (state, action) => {
+
+    deleteSupportRating: (state, action) => {
+      const { currentId, funcId, succId } = action.payload;
+      const templateIdx = state.list.findIndex(
+        (template) => template._id === currentId
+      );
+      const sfIdx = state.list[templateIdx].supportFunctions.findIndex(
+        (sf) => sf.id === funcId
+      );
+      const supportFunction = state.list[templateIdx].supportFunctions[sfIdx];
+      const succIdx = supportFunction.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = supportFunction.successIndicators[succIdx];
+      const updatedAverage = supportFunction.rawAverage.filter(
+        (ave) => ave.id !== succId
+      );
+      supportFunction.rawAverage = updatedAverage;
+      succ.actualAccomplishments.rating = {};
+    },
+    editSupportRating: (state, action) => {
       const { currentId, funcId, succId, quality, timeliness, efficiency } =
         action.payload;
+
+      const rawScore = [
+        quality && parseInt(quality),
+        timeliness && parseInt(timeliness),
+        efficiency && parseInt(efficiency),
+      ];
+
+      const newRawScore = rawScore.filter((score) => typeof score === "number");
+      const rawAverage = newRawScore.reduce((acc, curr) => acc + curr, 0);
 
       const templateIdx = state.list.findIndex(
         (template) => template._id === currentId
@@ -220,9 +323,15 @@ const slice = createSlice({
         (sf) => sf.id === funcId
       );
       const supportFunction = template.supportFunctions[sfIdx];
-      supportFunction.rawAverage.push(
-        (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3
+
+      const aveIdx = supportFunction.rawAverage.findIndex(
+        (ave) => ave.id === succId
       );
+      supportFunction.rawAverage[aveIdx] = {
+        id: succId,
+        average: parseInt(rawAverage) / newRawScore.length,
+      };
+
       const succIdx = supportFunction.successIndicators.findIndex(
         (succ) => succ.id === succId
       );
@@ -231,8 +340,46 @@ const slice = createSlice({
         quality: parseInt(quality),
         timeliness: parseInt(timeliness),
         efficiency: parseInt(efficiency),
-        average:
-          (parseInt(quality) + parseInt(timeliness) + parseInt(efficiency)) / 3,
+        average: parseInt(rawAverage) / newRawScore.length,
+      };
+    },
+    rateSupportFunction: (state, action) => {
+      const { currentId, funcId, succId, quality, timeliness, efficiency } =
+        action.payload;
+
+      const rawScore = [
+        quality && parseInt(quality),
+        timeliness && parseInt(timeliness),
+        efficiency && parseInt(efficiency),
+      ];
+
+      const newRawScore = rawScore.filter((score) => typeof score === "number");
+      const rawAverage = newRawScore.reduce((acc, curr) => acc + curr, 0);
+
+      const templateIdx = state.list.findIndex(
+        (template) => template._id === currentId
+      );
+
+      const template = state.list[templateIdx];
+      const sfIdx = template.supportFunctions.findIndex(
+        (sf) => sf.id === funcId
+      );
+      const supportFunction = template.supportFunctions[sfIdx];
+
+      supportFunction.rawAverage.push({
+        id: succId,
+        average: parseInt(rawAverage) / newRawScore.length,
+      });
+
+      const succIdx = supportFunction.successIndicators.findIndex(
+        (succ) => succ.id === succId
+      );
+      const succ = supportFunction.successIndicators[succIdx];
+      succ.actualAccomplishments.rating = {
+        quality: parseInt(quality),
+        timeliness: parseInt(timeliness),
+        efficiency: parseInt(efficiency),
+        average: parseInt(rawAverage) / newRawScore.length,
       };
     },
     addSupportFunction: (state, action) => {
@@ -291,6 +438,7 @@ const slice = createSlice({
         actualAccomplishments: {
           title: "",
           description: "",
+          sentiment: "",
           rating: {},
         },
       });
@@ -405,8 +553,11 @@ export const {
   deleteCoreSuccessIndicator,
   addCoreAccomplishment,
   deleteCoreAccomplishment,
+  editCoreRating,
+  deleteCoreRating,
 
   // support function
+  editSupportRating,
   addSupportFunctionRemarks,
   rateSupportFunction,
   addSupportFunction,
@@ -417,6 +568,7 @@ export const {
   editSupportSuccessIndicator,
   addSupportAccomplishment,
   deleteSupportAccomplishment,
+  deleteSupportRating,
 } = slice.actions;
 export default slice.reducer;
 

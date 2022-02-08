@@ -6,12 +6,6 @@ import { getTemplates, rateSupportFunction } from "../../store/templates";
 
 import { AppForm, FormControl } from "../forms";
 
-const validationSchema = Yup.object().shape({
-  quality: Yup.number().required("This Field is required."),
-  timeliness: Yup.number().required("This Field is required."),
-  efficiency: Yup.number().required("This Field is required."),
-});
-
 const quality = [
   { id: "q1", value: 5, label: "Outstanding" },
   { id: "q2", value: 4, label: "Very Satisfactory" },
@@ -51,7 +45,7 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
   return (
     <Container>
       <Header>
-        <h5>Add Rating</h5>
+        <h5 className="text-uppercase fw-bold">Add Rating</h5>
       </Header>
 
       <div className="mb-4">
@@ -67,7 +61,6 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
 
       <AppForm
         initialValues={{ quality: "", timeliness: "", efficiency: "" }}
-        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <GridContainer>

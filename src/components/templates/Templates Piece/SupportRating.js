@@ -21,38 +21,42 @@ export default function SupportRating({
 
   return (
     <>
-      <td className="text-center">
-        {successIndicator?.actualAccomplishments?.rating?.[textProperty] ? (
-          <Rating
-            onClick={() => {
-              dispatch(
-                setTargetIndicator({
-                  funcId: supportFunction?.id,
-                  succId: successIndicator?.id,
-                })
-              );
-              return setShowEditSupportRating(true);
-            }}
-          >
-            {successIndicator?.actualAccomplishments?.rating?.[textProperty]}
-          </Rating>
-        ) : (
-          <TemplateIcon
-            icon={FiPlus}
-            fg="#ffffff"
-            bg="#0891b2"
-            onClick={() => {
-              dispatch(
-                setTargetIndicator({
-                  funcId: supportFunction?.id,
-                  succId: successIndicator?.id,
-                })
-              );
-              return setShowAddSupportRating(true);
-            }}
-          />
-        )}
-      </td>
+      {successIndicator?.actualAccomplishments?.title ? (
+        <td className="text-center">
+          {successIndicator?.actualAccomplishments?.rating?.[textProperty] ? (
+            <Rating
+              onClick={() => {
+                dispatch(
+                  setTargetIndicator({
+                    funcId: supportFunction?.id,
+                    succId: successIndicator?.id,
+                  })
+                );
+                return setShowEditSupportRating(true);
+              }}
+            >
+              {successIndicator?.actualAccomplishments?.rating?.[textProperty]}
+            </Rating>
+          ) : (
+            <TemplateIcon
+              icon={FiPlus}
+              fg="#ffffff"
+              bg="#0891b2"
+              onClick={() => {
+                dispatch(
+                  setTargetIndicator({
+                    funcId: supportFunction?.id,
+                    succId: successIndicator?.id,
+                  })
+                );
+                return setShowAddSupportRating(true);
+              }}
+            />
+          )}
+        </td>
+      ) : (
+        <td></td>
+      )}
       {/* add support rating */}
       <Modal
         size="lg"

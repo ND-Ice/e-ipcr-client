@@ -1,16 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import * as Yup from "yup";
+
 import { getTemplates, rateCoreFunction } from "../../store/templates";
-
 import { AppForm, FormControl } from "../forms";
-
-const validationSchema = Yup.object().shape({
-  quality: Yup.number().required("This Field is required."),
-  timeliness: Yup.number().required("This Field is required."),
-  efficiency: Yup.number().required("This Field is required."),
-});
 
 const quality = [
   { id: "q1", value: 5, label: "Outstanding" },
@@ -67,7 +60,6 @@ export default function AddCoreRating({ id, coreFunctions, open }) {
 
       <AppForm
         initialValues={{ quality: "", timeliness: "", efficiency: "" }}
-        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <GridContainer>

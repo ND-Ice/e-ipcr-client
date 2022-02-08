@@ -20,38 +20,42 @@ export default function CoreRating({
 
   return (
     <>
-      <td className="text-center">
-        {successIndicator?.actualAccomplishments?.rating?.[textProperty] ? (
-          <Rating
-            onClick={() => {
-              dispatch(
-                setTargetIndicator({
-                  funcId: coreFunction?.id,
-                  succId: successIndicator?.id,
-                })
-              );
-              return setShowEditCoreRating(true);
-            }}
-          >
-            {successIndicator?.actualAccomplishments?.rating?.[textProperty]}
-          </Rating>
-        ) : (
-          <TemplateIcon
-            icon={FiPlus}
-            fg="#ffffff"
-            bg="#0891b2"
-            onClick={() => {
-              dispatch(
-                setTargetIndicator({
-                  funcId: coreFunction?.id,
-                  succId: successIndicator?.id,
-                })
-              );
-              return setShowAddCoreRating(true);
-            }}
-          />
-        )}
-      </td>
+      {successIndicator?.actualAccomplishments?.title ? (
+        <td className="text-center">
+          {successIndicator?.actualAccomplishments?.rating?.[textProperty] ? (
+            <Rating
+              onClick={() => {
+                dispatch(
+                  setTargetIndicator({
+                    funcId: coreFunction?.id,
+                    succId: successIndicator?.id,
+                  })
+                );
+                return setShowEditCoreRating(true);
+              }}
+            >
+              {successIndicator?.actualAccomplishments?.rating?.[textProperty]}
+            </Rating>
+          ) : (
+            <TemplateIcon
+              icon={FiPlus}
+              fg="#ffffff"
+              bg="#0891b2"
+              onClick={() => {
+                dispatch(
+                  setTargetIndicator({
+                    funcId: coreFunction?.id,
+                    succId: successIndicator?.id,
+                  })
+                );
+                return setShowAddCoreRating(true);
+              }}
+            />
+          )}
+        </td>
+      ) : (
+        <td></td>
+      )}
       <Modal
         show={showAddCoreRating}
         size="lg"

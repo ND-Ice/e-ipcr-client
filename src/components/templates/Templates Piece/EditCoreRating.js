@@ -1,16 +1,14 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import * as Yup from "yup";
-import { getTemplates, rateCoreFunction } from "../../../store/templates";
 
+import {
+  deleteCoreRating,
+  editCoreRating,
+  getTemplates,
+} from "../../../store/templates";
 import { AppForm, FormControl } from "../../forms";
-
-const validationSchema = Yup.object().shape({
-  quality: Yup.number().required("This Field is required."),
-  timeliness: Yup.number().required("This Field is required."),
-  efficiency: Yup.number().required("This Field is required."),
-});
 
 const quality = [
   { id: "q1", value: 5, label: "Outstanding" },
@@ -46,7 +44,12 @@ export default function EditCoreRating({ id, coreFunctions, open }) {
   const { rating } = successIndicator?.actualAccomplishments;
 
   const handleSubmit = (values) => {
-    dispatch(rateCoreFunction({ currentId: id, funcId, succId, ...values }));
+    dispatch(editCoreRating({ currentId: id, funcId, succId, ...values }));
+    return open(false);
+  };
+
+  const handleDeleteRating = () => {
+    dispatch(deleteCoreRating({ currentId: id, funcId, succId }));
     return open(false);
   };
 
@@ -73,7 +76,6 @@ export default function EditCoreRating({ id, coreFunctions, open }) {
           timeliness: rating?.timeliness || "",
           efficiency: rating?.efficiency || "",
         }}
-        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <GridContainer>
@@ -96,7 +98,12 @@ export default function EditCoreRating({ id, coreFunctions, open }) {
             menuItems={efficiency}
           />
         </GridContainer>
-        <FormControl variant="button" title="Rate" className="mt-2" />
+        <div className="mt-2 d-flex align-items-center justify-content-between">
+          <FormControl variant="button" title="Rate" />
+          <Button variant="danger" onClick={handleDeleteRating}>
+            Delete
+          </Button>
+        </div>
       </AppForm>
     </Container>
   );

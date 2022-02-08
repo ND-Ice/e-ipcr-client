@@ -33,7 +33,7 @@ export default function AddAccomplishment({ open, coreFunctions, id }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Add Accomplishment</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Add Accomplishment</h5>
       </Header>
 
       <div>

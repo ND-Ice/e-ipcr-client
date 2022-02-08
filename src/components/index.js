@@ -28,3 +28,6 @@ export { default as Feedback } from "./Feedback";
 export { default as FeedBacks } from "./FeedBacks";
 export { default as CommentItem } from "./CommentItem";
 export { default as Loader } from "./Loader";
+export { default as Signature } from "./Signature";
+export { default as ApprovedBy } from "./ApprovedBy";
+export { default as Respondent } from "./Respondent";

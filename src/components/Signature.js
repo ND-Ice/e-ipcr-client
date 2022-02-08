@@ -2,16 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 
-export default function EvaluatorSignature({ response }) {
-  const { signatures, isApproved } = response;
-  const { approvedBy, approvedDate } = isApproved;
+export default function Signature({ response, positionProperty }) {
+  const { status } = response;
+  const user = status[positionProperty]?.user;
+  const signature = status[positionProperty]?.signature;
+  const dateApproved = status[positionProperty]?.dateApproved;
+  const position = positionProperty;
+
   return (
     <Container>
-      <SignatureWrapper>
-        <img src={signatures?.evaluatorSignature} alt="" />
-        {approvedBy?.name?.firstName} {approvedBy?.name?.lastName}
+      <SignatureWrapper position={position}>
+        <img src={signature} alt="" />
+        {user?.name?.firstName} {user?.name?.lastName}
+        <p className="position">{position}</p>
       </SignatureWrapper>
-      <DataWrapper>{moment(parseInt(approvedDate)).format("LL")}</DataWrapper>
+      <DataWrapper>{moment(parseInt(dateApproved)).format("LL")}</DataWrapper>
     </Container>
   );
 }
@@ -28,9 +33,8 @@ const SignatureWrapper = styled.div`
   padding: 0.2rem;
   border-bottom: 2px solid #000000;
   text-align: center;
-  font-size: 1.2rem;
   font-weight: 700;
-  margin-right: 4rem;
+  margin-right: 2rem;
   text-transform: uppercase;
 
   img {
@@ -42,13 +46,13 @@ const SignatureWrapper = styled.div`
     width: 200px;
   }
 
-  ::after {
-    content: "ASSESED BY";
+  .position {
     position: absolute;
     top: calc(100% + 3px);
     left: 50%;
     font-weight: 700;
     font-size: 0.8rem;
+    margin: 0;
     transform: translateX(-50%);
   }
 `;
@@ -60,7 +64,6 @@ const DataWrapper = styled.div`
   border-bottom: 2px solid #000000;
   text-align: center;
   font-weight: 700;
-  font-size: 1.2rem;
   text-transform: uppercase;
 
   ::after {

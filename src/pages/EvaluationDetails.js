@@ -20,6 +20,8 @@ import ViewResponse from "../components/evaluation/ViewResponse";
 import { unSubmit } from "../store/templates";
 import FeedBacks from "../components/FeedBacks";
 import Loader from "../components/Loader";
+import Progress from "./Progress";
+import logsApi from "../api/logs";
 
 export default function EvaluationDetails({ match, history }) {
   const id = match.params.id;
@@ -67,6 +69,11 @@ export default function EvaluationDetails({ match, history }) {
     try {
       setLoading(true);
       await responseApi.unsubmitResponse(yourResponse._id);
+      await logsApi.addEvaluationLogs(
+        id,
+        user?.currentUser,
+        "Unsubmitted a evaluation response"
+      );
       setLoading(false);
       dispatch(
         unSubmit({
@@ -111,43 +118,46 @@ export default function EvaluationDetails({ match, history }) {
                 We received your response.
               </Alert>
             )}
-            {yourResponse && !yourResponse.isApproved && (
-              <Alert variant="warning">
-                Your evaluation is now in the queue to evaluate
-              </Alert>
-            )}
-            {yourResponse?.isApproved && (
+            {yourResponse?.status?.intermediateSupervisor?.isApproved && (
               <Alert variant="dark">
-                Your response is already evaluated by the evaluator,
-                resubmission and unsibmission is no longer available.
+                Your response is already approved by the{" "}
+                <strong> INTERMEDIATE SUPERVISOR </strong>, resubmission and
+                unsibmission is no longer available.
               </Alert>
             )}
-            {yourResponse && (
-              <Button onClick={() => setShowYourResponse(true)}>
-                View Response
-              </Button>
-            )}
+            <div className="mb-5">
+              {yourResponse && (
+                <Button onClick={() => setShowYourResponse(true)}>
+                  View Response
+                </Button>
+              )}
 
-            {!yourResponse && (
-              <Button
-                className="mt-4"
-                onClick={() => history.push(`/dashboard/create-response/${id}`)}
-              >
-                Create Response
-              </Button>
-            )}
+              {!yourResponse && (
+                <Button
+                  className="mt-4"
+                  onClick={() =>
+                    history.push(`/dashboard/create-response/${id}`)
+                  }
+                >
+                  Create Response
+                </Button>
+              )}
 
-            {yourResponse && (
-              <Button
-                disabled={yourResponse?.isApproved}
-                className="ms-2"
-                onClick={handleUnSubmit}
-              >
-                Unsubmit
-              </Button>
-            )}
+              {yourResponse && (
+                <Button
+                  disabled={
+                    yourResponse?.status?.intermediateSupervisor?.isApproved
+                  }
+                  className="ms-2"
+                  onClick={handleUnSubmit}
+                >
+                  Unsubmit
+                </Button>
+              )}
+            </div>
+            {yourResponse && <Progress response={yourResponse} />}
           </div>
-          {yourResponse?.isApproved &&
+          {yourResponse?.status?.intermediateSupervisor?.isApproved &&
             yourResponse?.feedback?.title?.length !== 0 &&
             yourResponse?.feedback?.comments?.list?.length !== 0 && (
               <FeedBacks feedbacks={yourResponse?.feedback} />
@@ -190,8 +200,9 @@ const AppContainer = styled.div`
   }
 `;
 
-const Title = styled.h4`
+const Title = styled.h5`
   max-width: 40ch;
+  text-transform: uppercase;
 `;
 
 const DueDate = styled.div`

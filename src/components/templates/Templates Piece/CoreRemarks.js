@@ -18,40 +18,44 @@ export default function CoreRemarks({
 
   return (
     <>
-      <td>
-        {successIndicator?.remarks ? (
-          <Remarks
-            onClick={() => {
-              setShowEditRemarks(true);
-              return dispatch(
-                setTargetIndicator({
-                  funcId: coreFunction?.id,
-                  succId: successIndicator?.id,
-                })
-              );
-            }}
-          >
-            {successIndicator?.remarks}
-          </Remarks>
-        ) : (
-          <div className="text-center">
-            <TemplateIcon
-              icon={FiPlus}
-              fg="#ffffff"
-              bg="#0891b2"
+      {successIndicator?.actualAccomplishments?.title ? (
+        <td>
+          {successIndicator?.remarks ? (
+            <Remarks
               onClick={() => {
-                dispatch(
+                setShowEditRemarks(true);
+                return dispatch(
                   setTargetIndicator({
                     funcId: coreFunction?.id,
                     succId: successIndicator?.id,
                   })
                 );
-                return setShowAddRemarks(true);
               }}
-            />
-          </div>
-        )}
-      </td>
+            >
+              {successIndicator?.remarks}
+            </Remarks>
+          ) : (
+            <div className="text-center">
+              <TemplateIcon
+                icon={FiPlus}
+                fg="#ffffff"
+                bg="#0891b2"
+                onClick={() => {
+                  dispatch(
+                    setTargetIndicator({
+                      funcId: coreFunction?.id,
+                      succId: successIndicator?.id,
+                    })
+                  );
+                  return setShowAddRemarks(true);
+                }}
+              />
+            </div>
+          )}
+        </td>
+      ) : (
+        <td></td>
+      )}
 
       <Modal show={showAddRemarks} onHide={() => setShowAddRemarks(false)}>
         <AddCoreFunctionRemarks id={template?._id} open={setShowAddRemarks} />

@@ -171,15 +171,6 @@ export default function Templates() {
                 coreFunctions={template?.coreFunctions}
                 supportFunctions={template?.supportFunctions}
               />
-              {/* ===================== signatories ===================== */}
-              <tr>
-                <td colSpan={8}></td>
-              </tr>
-              <tr>
-                <td colSpan={8} className="p-4">
-                  <Signatory template={template} />
-                </td>
-              </tr>
             </tbody>
           </Table>
           <FilePicker id={template?._id} template={template} />

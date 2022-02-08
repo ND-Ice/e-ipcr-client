@@ -7,7 +7,7 @@ export default function FeedBacks({ feedbacks }) {
   const { comments, recommendations } = feedbacks;
   return (
     <Container>
-      <h5 className="mb-4">Evaluators Feedback</h5>
+      <h5 className="mb-4 text-uppercase fw-bold">Evaluators Feedback</h5>
       <CommentFeedback comments={comments} />
       <RecommendationsFeedback recommendations={recommendations} />
     </Container>

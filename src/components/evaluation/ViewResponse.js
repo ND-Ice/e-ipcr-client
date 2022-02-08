@@ -7,7 +7,7 @@ import Logo from "../../image/logo.png";
 import { RatingSummary } from "../templates";
 import Attachment from "./Attachment";
 import Feedback from "../Feedback";
-import { ApprovedBy, EvaluatorSignature, HrSignature, Respondent } from ".";
+import { ApprovedBy, Respondent, Signature } from "..";
 
 export default function ViewResponse({ response, open }) {
   const {
@@ -16,7 +16,7 @@ export default function ViewResponse({ response, open }) {
     _id,
     attachments,
     feedback,
-    signatures,
+    status,
   } = response;
 
   const handleClose = () => open(false);
@@ -49,17 +49,19 @@ export default function ViewResponse({ response, open }) {
               INDIVIDUAL PERFORMANCE COMMITMENT REVIEW
             </td>
           </tr>
-          <Respondent response={response} />
-          <tr className="fw-bold">
-            <td colSpan={8}>Approved By</td>
-          </tr>
-          {/* =================== approved by ========================= */}
-          {signatures?.evaluatorSignature && (
-            <tr>
-              <td colSpan={8}>
-                <ApprovedBy response={response} />
-              </td>
-            </tr>
+          {status?.faculty?.signature && <Respondent response={response} />}
+          {status?.intermediateSupervisor?.signature && (
+            <>
+              <tr className="fw-bold text-uppercase">
+                <td colSpan={8}>Approved By</td>
+              </tr>
+              {/* =================== approved by ========================= */}
+              <tr>
+                <td colSpan={8}>
+                  <ApprovedBy response={response} />
+                </td>
+              </tr>
+            </>
           )}
 
           <tr className="text-center fw-bold text-uppercase">
@@ -199,17 +201,21 @@ export default function ViewResponse({ response, open }) {
           />
           {/* ====================== feedback ====================== */}
           <Feedback feedback={feedback} />
-          {response?.signatures?.hrSignature &&
-            response?.signatures?.evaluatorSignature && (
-              <tr>
-                <td colSpan={8} className="p-4">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <HrSignature response={response} />
-                    <EvaluatorSignature response={response} />
-                  </div>
-                </td>
-              </tr>
-            )}
+          <tr>
+            <td colSpan={8} className="p-4">
+              <div className="d-flex align-items-center justify-content-between">
+                {status?.director?.signature && (
+                  <Signature response={response} positionProperty="director" />
+                )}
+                {status?.PMT?.signature && (
+                  <Signature response={response} positionProperty="PMT" />
+                )}
+                {status?.HEAD?.signature && (
+                  <Signature response={response} positionProperty="HEAD" />
+                )}
+              </div>
+            </td>
+          </tr>
         </tbody>
       </Table>
 

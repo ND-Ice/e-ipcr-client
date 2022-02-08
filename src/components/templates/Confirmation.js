@@ -10,8 +10,9 @@ import { getTemplates } from "../../store/templates";
 import { getEvaluations } from "../../store/evaluations";
 import { getUser } from "../../store/user";
 import responseApi from "../../api/response";
+import logsApi from "../../api/logs";
 
-export default function Confirmation({ files, id, template }) {
+export default function Confirmation({ files, id }) {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -19,7 +20,6 @@ export default function Confirmation({ files, id, template }) {
   const { preview } = useSelector(getEvaluations);
   const { currentUser } = useSelector(getUser);
   let sigPadRef = useRef({});
-  const { createdBy, signature } = template?.generatedBy;
 
   const {
     coreFunctions,
@@ -29,7 +29,10 @@ export default function Confirmation({ files, id, template }) {
   } = list?.filter((template) => template?._id === id)[0];
 
   const coreFuncRating = coreFunctions?.map((coreFunc) => {
-    const ave = coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    const ave = coreFunc?.rawAverage?.reduce(
+      (acc, curr) => acc + curr?.average,
+      0
+    );
     return (
       (ave / coreFunc?.successIndicators?.length) * (coreFunc?.percentage / 100)
     );
@@ -37,7 +40,10 @@ export default function Confirmation({ files, id, template }) {
 
   // get the support functions rating
   const supportFuncRating = supportFunctions?.map((suppFunc) => {
-    const ave = suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    const ave = suppFunc?.rawAverage?.reduce(
+      (acc, curr) => acc + curr?.average,
+      0
+    );
     return (
       (ave / suppFunc?.successIndicators?.length) * (suppFunc?.percentage / 100)
     );
@@ -53,7 +59,6 @@ export default function Confirmation({ files, id, template }) {
       await responseApi.submitResponse(
         preview?._id,
         currentUser?._id,
-        currentUser,
         id,
         coreFunctions,
         supportFunctions,
@@ -61,9 +66,13 @@ export default function Confirmation({ files, id, template }) {
         supportFunctionsMeasure,
         files,
         finalRating,
-        sigPadRef.current.getTrimmedCanvas().toDataURL(),
-        createdBy,
-        signature
+        currentUser,
+        sigPadRef.current.getTrimmedCanvas().toDataURL()
+      );
+      await logsApi.addEvaluationLogs(
+        id,
+        currentUser,
+        "Submitted evaluation response."
       );
       setLoading(false);
       return history.goBack();

@@ -3,15 +3,16 @@ import React from "react";
 import styled from "styled-components";
 
 export default function ApprovedBy({ response }) {
-  const { signatures, isApproved } = response;
-  const { approvedBy, approvedDate } = isApproved;
+  const { status } = response;
+  const { signature, user, dateApproved } = status?.intermediateSupervisor;
+
   return (
     <Container>
       <SignatureWrapper>
-        <img src={signatures?.evaluatorSignature} alt="" />
-        {approvedBy?.name?.firstName} {approvedBy?.name?.lastName}
+        <img src={signature} alt="" />
+        {user?.name?.firstName} {user?.name?.lastName}
       </SignatureWrapper>
-      <DateWrapper>{moment(parseInt(approvedDate)).format("LL")}</DateWrapper>
+      <DateWrapper>{moment(parseInt(dateApproved)).format("LL")}</DateWrapper>
     </Container>
   );
 }
@@ -25,8 +26,7 @@ const Container = styled.div`
 `;
 
 const SignatureWrapper = styled.div`
-  width: 300px;
-  font-size: 1.2rem;
+  width: 350px;
   font-weight: 700;
   position: absolute;
   left: 50%;
@@ -43,19 +43,19 @@ const SignatureWrapper = styled.div`
   }
 
   ::after {
-    content: "EVALUATOR";
+    content: "SUPERVISOR";
     font-size: 0.8rem;
     font-weight: 700;
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
+    text-transform: uppercase;
   }
 `;
 
 const DateWrapper = styled.div`
   font-weight: 700;
-  font-size: 1.2rem;
   position: relative;
   padding: 0.2rem;
   border-bottom: 2px solid #000000;

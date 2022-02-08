@@ -1,16 +1,14 @@
 import React from "react";
+import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import * as Yup from "yup";
-import { getTemplates, rateSupportFunction } from "../../../store/templates";
 
+import {
+  deleteSupportRating,
+  editSupportRating,
+  getTemplates,
+} from "../../../store/templates";
 import { AppForm, FormControl } from "../../forms";
-
-const validationSchema = Yup.object().shape({
-  quality: Yup.number().required("This Field is required."),
-  timeliness: Yup.number().required("This Field is required."),
-  efficiency: Yup.number().required("This Field is required."),
-});
 
 const quality = [
   { id: "q1", value: 5, label: "Outstanding" },
@@ -46,14 +44,19 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
   const { rating } = successIndicator?.actualAccomplishments;
 
   const handleSubmit = (values) => {
-    dispatch(rateSupportFunction({ currentId: id, funcId, succId, ...values }));
+    dispatch(editSupportRating({ currentId: id, funcId, succId, ...values }));
+    return open(false);
+  };
+
+  const handleDeleteRating = () => {
+    dispatch(deleteSupportRating({ currentId: id, funcId, succId }));
     return open(false);
   };
 
   return (
     <Container>
       <Header>
-        <h5>Add Rating</h5>
+        <h5 className="text-uppercase fw-bold">edit rating</h5>
       </Header>
 
       <div className="mb-4">
@@ -73,7 +76,6 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
           timeliness: rating?.timeliness || "",
           efficiency: rating?.efficiency || "",
         }}
-        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <GridContainer>
@@ -96,7 +98,12 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
             menuItems={efficiency}
           />
         </GridContainer>
-        <FormControl variant="button" title="Rate" className="mt-2" />
+        <div className="d-flex align-items-center justify-content-between">
+          <FormControl variant="button" title="Rate" />
+          <Button variant="danger" onClick={handleDeleteRating}>
+            Delete
+          </Button>
+        </div>
       </AppForm>
     </Container>
   );

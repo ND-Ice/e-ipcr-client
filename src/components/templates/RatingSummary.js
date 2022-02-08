@@ -1,11 +1,13 @@
 import React from "react";
-import styled from "styled-components";
 
 import { getRemarks } from "../../utils";
 
 export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
   const coreFuncRating = coreFunctions?.map((coreFunc) => {
-    const ave = coreFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    const ave = coreFunc?.rawAverage?.reduce(
+      (acc, curr) => acc + curr?.average,
+      0
+    );
     return (
       (ave / coreFunc?.successIndicators?.length) * (coreFunc?.percentage / 100)
     );
@@ -13,7 +15,10 @@ export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
 
   // get the support functions rating
   const supportFuncRating = supportFunctions?.map((suppFunc) => {
-    const ave = suppFunc?.rawAverage?.reduce((acc, curr) => acc + curr, 0);
+    const ave = suppFunc?.rawAverage?.reduce(
+      (acc, curr) => acc + curr?.average,
+      0
+    );
     return (
       (ave / suppFunc?.successIndicators?.length) * (suppFunc?.percentage / 100)
     );
@@ -66,7 +71,10 @@ export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
           <td className="text-center" colSpan={2}>
             {cf?.rawAverage?.length !== 0
               ? (
-                  (cf?.rawAverage.reduce((acc, curr) => acc + curr, 0) /
+                  (cf?.rawAverage.reduce(
+                    (acc, curr) => acc + curr?.average,
+                    0
+                  ) /
                     cf?.rawAverage?.length) *
                   (cf?.percentage / 100)
                 ).toFixed(2)
@@ -92,7 +100,10 @@ export default function RatingSummary({ id, coreFunctions, supportFunctions }) {
           <td className="text-center" colSpan={2}>
             {sf?.rawAverage?.length !== 0
               ? (
-                  (sf?.rawAverage?.reduce((acc, curr) => acc + curr, 0) /
+                  (sf?.rawAverage?.reduce(
+                    (acc, curr) => acc + curr?.average,
+                    0
+                  ) /
                     sf?.rawAverage?.length) *
                   (sf?.percentage / 100)
                 ).toFixed(2)

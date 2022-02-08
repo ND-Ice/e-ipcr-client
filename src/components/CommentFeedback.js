@@ -28,7 +28,7 @@ export default function CommentFeedback({ comments }) {
   };
   return (
     <div>
-      <h6>Comments</h6>
+      <h6 className="text-uppercase fw-bold">Comments</h6>
       <p>
         {comments?.title}
         {loading ? (
