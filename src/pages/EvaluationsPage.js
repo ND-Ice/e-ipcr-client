@@ -52,7 +52,7 @@ export default function EvaluationsPage({ history }) {
 
   return (
     <AppContainer>
-      <h5 className="mb-4">Evaluations</h5>
+      <h5 className="mb-4 text-uppercase fw-bold">Evaluations</h5>
       <Container>
         {ongoing?.map((evaluation) => (
           <EvaluationCard

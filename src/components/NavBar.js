@@ -10,8 +10,8 @@ import { useLocation } from "react-router-dom";
 import logo from "../image/logo.png";
 
 const navItems = [
-  { to: "/dashboard", title: "Home" },
-  { to: "/dashboard/past-evaluations", title: "Past Evaluation" },
+  { to: "/dashboard", title: "HOME" },
+  { to: "/dashboard/past-evaluations", title: "PAST EVALUATIONS" },
 ];
 
 export default function NavBar() {
@@ -22,7 +22,7 @@ export default function NavBar() {
       <NavLInkItem to="/">
         <div className="d-flex align-items-center">
           <LogoImage src={logo} alt="logo" />
-          E-IPCR
+          <h5 className="m-0">E-IPCR</h5>
         </div>
       </NavLInkItem>
       <MenuContainer>
@@ -77,7 +77,7 @@ const NavLinks = styled.div`
 `;
 
 const LogoImage = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   margin-right: 0.5rem;
 `;

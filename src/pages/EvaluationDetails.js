@@ -159,7 +159,7 @@ export default function EvaluationDetails({ match, history }) {
             {yourResponse && <Progress response={yourResponse} />}
           </div>
           {yourResponse?.status?.intermediateSupervisor?.isApproved &&
-            yourResponse?.feedback?.title?.length !== 0 &&
+            yourResponse?.feedback?.comments?.title?.length !== 0 &&
             yourResponse?.feedback?.comments?.list?.length !== 0 && (
               <FeedBacks feedbacks={yourResponse?.feedback} />
             )}

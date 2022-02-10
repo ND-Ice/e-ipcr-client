@@ -7,41 +7,10 @@ import { getSentimentColor } from "../utils";
 import CommentItem from "./CommentItem";
 
 export default function CommentFeedback({ comments }) {
-  const [sentiment, setSentiment] = useState([]);
-  const [loading, setLoading] = useState(null);
-  const sentimentValue = sentiment[0]?.classifications[0];
-
-  useEffect(() => {
-    analyzeSentiment();
-  }, [comments]);
-
-  const analyzeSentiment = async () => {
-    try {
-      setLoading(true);
-      const response = await templatesApi.analyzeSentiment(comments?.title);
-      setLoading(false);
-      return setSentiment(response.data);
-    } catch (error) {
-      setLoading(false);
-      return console.log(error);
-    }
-  };
   return (
     <div>
       <h6 className="text-uppercase fw-bold">Comments</h6>
-      <p>
-        {comments?.title}
-        {loading ? (
-          <Loader>
-            Analyzing <PulseLoader color="#ffffff" size={5} />
-          </Loader>
-        ) : (
-          <Sentiment sentiment={sentimentValue?.tag_name}>
-            {sentimentValue?.tag_name}{" "}
-            {Math.round(sentimentValue?.confidence * 100)}%
-          </Sentiment>
-        )}
-      </p>
+      <p>{comments?.title}</p>
       <ul>
         {comments?.list?.map((comment) => (
           <CommentItem key={comment?.id} comment={comment} />
