@@ -72,7 +72,8 @@ export default function Confirmation({ files, id }) {
       await logsApi.addEvaluationLogs(
         id,
         currentUser,
-        "Submitted evaluation response."
+        "Submitted evaluation response.",
+        {}
       );
       setLoading(false);
       return history.goBack();

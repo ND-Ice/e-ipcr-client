@@ -72,7 +72,8 @@ export default function EvaluationDetails({ match, history }) {
       await logsApi.addEvaluationLogs(
         id,
         user?.currentUser,
-        "Unsubmitted a evaluation response"
+        "Unsubmitted a evaluation response",
+        {}
       );
       setLoading(false);
       dispatch(
