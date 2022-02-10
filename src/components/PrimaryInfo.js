@@ -17,7 +17,7 @@ export default function PrimaryInfo({ user }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Primary Information</h5>
+        <h6 className="m-0 text-uppercase fw-bold">Primary Information</h6>
         <FiEdit className="edit-icon" onClick={() => setShow(true)} />
       </Header>
       <ProfileItem title="Email Address" icon={FiMail} text={user.email} />
@@ -66,6 +66,7 @@ const Container = styled.div`
   border-radius: 0.5rem;
   margin-top: 0.5rem;
   background: ${({ theme }) => theme.colors.white};
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 const Header = styled.div`

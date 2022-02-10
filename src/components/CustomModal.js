@@ -12,7 +12,12 @@ export default function CustomModal(props) {
       centered
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">{heading}</Modal.Title>
+        <h5
+          className="text-uppercase fw-bold m-0"
+          id="contained-modal-title-vcenter"
+        >
+          {heading}
+        </h5>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
     </Modal>

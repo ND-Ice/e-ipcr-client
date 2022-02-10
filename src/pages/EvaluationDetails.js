@@ -136,9 +136,7 @@ export default function EvaluationDetails({ match, history }) {
               {!yourResponse && (
                 <Button
                   className="mt-4"
-                  onClick={() =>
-                    history.push(`/dashboard/create-response/${id}`)
-                  }
+                  onClick={() => history.push(`/create-response/${id}`)}
                 >
                   Create Response
                 </Button>
@@ -195,7 +193,6 @@ const AppContainer = styled.div`
   display: grid;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    padding: 2rem 5rem;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
   }

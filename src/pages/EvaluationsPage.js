@@ -15,10 +15,17 @@ import {
   evaluationsRequestFailed,
   getEvaluations,
 } from "../store/evaluations";
+import { Link, useLocation } from "react-router-dom";
+
+const navItems = [
+  { id: 1, title: "EVALUATIONS", to: "/dashboard" },
+  { id: 2, title: "PAST EVALUATION", to: "/dashboard/past-evaluations" },
+];
 
 export default function EvaluationsPage({ history }) {
   const dispatch = useDispatch();
   const { list } = useSelector(getEvaluations);
+  const location = useLocation();
 
   const ongoing = list?.filter((evaluation) =>
     moment(Date.now()).isSameOrBefore(evaluation?.due)
@@ -52,7 +59,6 @@ export default function EvaluationsPage({ history }) {
 
   return (
     <AppContainer>
-      <h5 className="mb-4 text-uppercase fw-bold">Evaluations</h5>
       <Container>
         {ongoing?.map((evaluation) => (
           <EvaluationCard
@@ -66,16 +72,10 @@ export default function EvaluationsPage({ history }) {
   );
 }
 
-const AppContainer = styled.section`
-  padding: 1rem;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    padding: 1rem 5rem;
-  }
-`;
+const AppContainer = styled.section``;
 
 const Container = styled.div`
+  margin-top: 1rem;
   display: grid;
   gap: 1rem;
-  margin-top: 1rem;
 `;

@@ -11,7 +11,7 @@ export default function BasicInformation({ user }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Basic Information</h5>
+        <h6 className="m-0 text-uppercase fw-bold">Basic Information</h6>
         <FiEdit className="edit-icon" onClick={() => setShow(true)} />
       </Header>
       <Content>
@@ -62,6 +62,7 @@ const Container = styled.div`
   padding: 0.5rem;
   border-radius: 0.5rem;
   background: ${({ theme }) => theme.colors.white};
+  border: 2px solid ${({ theme }) => theme.colors.secondary};
 `;
 
 const Header = styled.div`

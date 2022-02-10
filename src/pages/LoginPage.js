@@ -62,7 +62,7 @@ export default function LoginPage({ history }) {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <h1 className="mb-2">Welcome.</h1>
+          <h3 className="mb-2">Welcome.</h3>
           <p className="mb-4">
             By logging in we assume that you agree to our{" "}
             <Links to="/" title="Privacy Policy" /> and{" "}
