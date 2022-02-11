@@ -49,7 +49,7 @@ export default function EditSupportFunction({ open, supportFunctions, id }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Support Function</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Support Function</h5>
         <Form>
           <Form.Check
             type="checkbox"

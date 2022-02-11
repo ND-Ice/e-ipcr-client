@@ -35,7 +35,7 @@ export default function AddCoreSuccessIndicator({ id, open }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Add Success Indicator</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Add Success Indicator</h5>
       </Header>
       <AppForm
         initialValues={{

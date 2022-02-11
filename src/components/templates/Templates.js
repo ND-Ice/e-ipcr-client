@@ -23,7 +23,6 @@ import {
   SupportSuccessIndicator,
   TableHeader,
 } from "./Templates Piece";
-import Signatory from "./Signatory";
 
 export default function Templates() {
   const templates = useSelector(getTemplates);

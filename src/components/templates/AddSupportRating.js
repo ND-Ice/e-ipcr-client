@@ -45,7 +45,7 @@ export default function AddSupportRating({ id, supportFunctions, open }) {
   return (
     <Container>
       <Header>
-        <h5 className="text-uppercase fw-bold">Add Rating</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Add Rating</h5>
       </Header>
 
       <div className="mb-4">

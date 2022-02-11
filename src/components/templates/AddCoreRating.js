@@ -44,7 +44,7 @@ export default function AddCoreRating({ id, coreFunctions, open }) {
   return (
     <Container>
       <Header>
-        <h5>Add Rating</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Add Rating</h5>
       </Header>
 
       <div className="mb-4">

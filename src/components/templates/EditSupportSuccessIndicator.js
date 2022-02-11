@@ -49,7 +49,7 @@ export default function EditSupportSuccessIndicator({
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Sucess Indicator</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Sucess Indicator</h5>
         <Form>
           <Form.Check
             type="checkbox"

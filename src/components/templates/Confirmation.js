@@ -86,7 +86,7 @@ export default function Confirmation({ files, id }) {
   return (
     <Container>
       <div className="mb-4">
-        <h5 className="m-0">Confirmation</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Confirmation</h5>
       </div>
       <FiCheckCircle className="icon" />
       <span>

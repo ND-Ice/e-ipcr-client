@@ -18,7 +18,7 @@ export default function AddSupportFunctionRemarks({ id, open }) {
 
   return (
     <Container>
-      <h5>Add Remarks</h5>
+      <h5 className="text-uppercase fw-bold">Add Remarks</h5>
       <AppForm initialValues={{ remarks: "" }} onSubmit={handleSubmit}>
         <FormControl
           variant="multiline"

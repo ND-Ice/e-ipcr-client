@@ -34,7 +34,7 @@ export default function EditCoreRemarks({ open, id, successIndicator }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Remarks</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Remarks</h5>
         <Form>
           <Form.Check
             type="checkbox"

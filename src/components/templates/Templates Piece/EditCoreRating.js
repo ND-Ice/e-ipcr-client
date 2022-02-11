@@ -56,7 +56,7 @@ export default function EditCoreRating({ id, coreFunctions, open }) {
   return (
     <Container>
       <Header>
-        <h5>Edit Rating</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Edit Rating</h5>
       </Header>
 
       <div className="mb-4">

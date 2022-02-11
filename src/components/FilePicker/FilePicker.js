@@ -31,7 +31,11 @@ export default function FilePicker({ id, template }) {
       <Button className="mt-4" onClick={() => setShowConfirmation(true)}>
         Submit
       </Button>
-      <Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
+      <Modal
+        size="lg"
+        show={showConfirmation}
+        onHide={() => setShowConfirmation(false)}
+      >
         <Confirmation files={selected} id={id} template={template} />
       </Modal>
     </Container>

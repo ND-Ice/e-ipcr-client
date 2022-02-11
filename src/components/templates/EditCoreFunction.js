@@ -45,7 +45,7 @@ export default function EditCoreFunction({ open, coreFunctions, id }) {
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Core Function</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Core Function</h5>
         <Form>
           <Form.Check
             type="checkbox"

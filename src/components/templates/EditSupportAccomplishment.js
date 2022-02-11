@@ -56,7 +56,7 @@ export default function EditSupportAccomplishment({
   return (
     <Container>
       <Header>
-        <h5 className="m-0">Edit Accomplishment</h5>
+        <h5 className="m-0 text-uppercase fw-bold">Edit Accomplishment</h5>
         <Form>
           <Form.Check
             type="checkbox"
