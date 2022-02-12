@@ -52,7 +52,7 @@ const colleges = [
   { id: 4, value: "CEN" },
   { id: 5, value: "CHM" },
   { id: 6, value: "CIT" },
-  { id: 6, value: "CCJE" },
+  { id: 7, value: "CPAC" },
 ];
 
 export default function RegisterPage() {
