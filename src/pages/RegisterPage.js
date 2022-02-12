@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-bootstrap";
 
 import { AppForm, FormControl } from "../components/forms";
-import { department } from "../utils";
 import { Links } from "../components";
 
 import usersApi from "../api/user";
@@ -26,7 +25,7 @@ const validationSchema = Yup.object().shape({
   lastName: Yup.string()
     .min(4, "This should be atleast 4 characters Long")
     .required("This field is required."),
-  dept: Yup.string().required("This field is required."),
+  college: Yup.string().required("This field is required."),
   birthDate: Yup.date()
     .max(new Date(Date.now() - 567648000000), "You must be at least 18 years")
     .required("This field is required."),
@@ -44,6 +43,16 @@ const facultyPosition = [
   { id: 1, value: "Regular Faculty" },
   { id: 2, value: "Dean" },
   { id: 3, value: "Chair Person" },
+];
+
+const colleges = [
+  { id: 1, value: "CAFA" },
+  { id: 2, value: "CAS" },
+  { id: 3, value: "CED" },
+  { id: 4, value: "CEN" },
+  { id: 5, value: "CHM" },
+  { id: 6, value: "CIT" },
+  { id: 6, value: "CCJE" },
 ];
 
 export default function RegisterPage() {
@@ -77,18 +86,25 @@ export default function RegisterPage() {
             middleName: "",
             lastName: "",
             birthDate: "",
-            dept: "",
             password: "",
+            college: "",
             position: "",
             repeatPassword: "",
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <h3>Register</h3>
+          <h3 className="fw-bold">Register</h3>
           <p className="mb-4">kindly fill up the following field to proceed.</p>
 
-          <NameContainer>
+          <FormControl
+            variant="input"
+            title="Email Address"
+            name="email"
+            className="p-2"
+            loading={user.loading}
+          />
+          <GridContainer>
             <FormControl
               variant="input"
               title="First Name"
@@ -117,30 +133,20 @@ export default function RegisterPage() {
               className="p-2"
               loading={user.loading}
             />
-          </NameContainer>
-          <FormControl
-            variant="select"
-            title="Position"
-            name="position"
-            className="p-2"
-            menuItems={facultyPosition}
-            loading={user.loading}
-          />
-
-          <GridContainer>
             <FormControl
-              variant="input"
-              title="Email Address"
-              name="email"
+              variant="select"
+              title="Position"
+              name="position"
               className="p-2"
+              menuItems={facultyPosition}
               loading={user.loading}
             />
             <FormControl
               variant="select"
-              title="Department"
-              name="dept"
+              title="College"
+              name="college"
               className="p-2"
-              menuItems={department}
+              menuItems={colleges}
               loading={user.loading}
             />
             <FormControl
@@ -193,12 +199,6 @@ const FormContainer = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     max-width: 600px;
   }
-`;
-
-const NameContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.5rem;
 `;
 
 const GridContainer = styled.div`
