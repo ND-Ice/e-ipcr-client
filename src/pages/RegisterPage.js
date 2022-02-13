@@ -43,6 +43,7 @@ const facultyPosition = [
   { id: 1, value: "Regular Faculty" },
   { id: 2, value: "Dean" },
   { id: 3, value: "Chair Person" },
+  { id: 3, value: "Non Teaching" },
 ];
 
 const colleges = [
