@@ -27,7 +27,6 @@ export default function Select(props) {
           </option>
         ))}
       </Form.Select>
-      <Form.Control.Feedback>Looks Good</Form.Control.Feedback>
       <Form.Control.Feedback type="invalid">
         {errors[name]}
       </Form.Control.Feedback>

@@ -21,7 +21,6 @@ export default function TextInput(props) {
         isInvalid={!touched[name] || !errors[name] ? false : true}
         {...otherProps}
       />
-      <Form.Control.Feedback>Looks Good</Form.Control.Feedback>
       <Form.Control.Feedback type="invalid">
         {errors[name]}
       </Form.Control.Feedback>
