@@ -45,15 +45,7 @@ export default function Progress({ response }) {
           <CircleIndicator isActive={HEAD?.isApproved}>
             <FiCheck className="check" />
           </CircleIndicator>
-          <CustomProgress isActive={HEAD?.isApproved} />
           <Title>HEAD</Title>
-        </ProgressWrapper>
-
-        <ProgressWrapper>
-          <CircleIndicator isActive={HR?.isApproved}>
-            <FiCheck className="check" />
-          </CircleIndicator>
-          <Title>HR</Title>
         </ProgressWrapper>
       </div>
     </Container>
@@ -88,7 +80,7 @@ const CircleIndicator = styled.div`
 `;
 
 const ProgressWrapper = styled.div`
-  width: 20%;
+  flex: 1;
   display: flex;
   align-items: center;
   position: relative;
