@@ -21,7 +21,6 @@ import { unSubmit } from "../store/templates";
 import FeedBacks from "../components/FeedBacks";
 import Loader from "../components/Loader";
 import Progress from "./Progress";
-import logsApi from "../api/logs";
 
 export default function EvaluationDetails({ match, history }) {
   const id = match.params.id;
@@ -60,7 +59,7 @@ export default function EvaluationDetails({ match, history }) {
       setEvaluatonResponse(response.data);
       return setFetching(false);
     } catch (error) {
-      setLoading(false);
+      setFetching(false);
       return console.log(error);
     }
   };
@@ -68,13 +67,7 @@ export default function EvaluationDetails({ match, history }) {
   const handleUnSubmit = async () => {
     try {
       setLoading(true);
-      await responseApi.unsubmitResponse(yourResponse._id);
-      await logsApi.addEvaluationLogs(
-        id,
-        user?.currentUser,
-        "Unsubmitted a evaluation response",
-        {}
-      );
+      await responseApi.unsubmitResponse(yourResponse?._id);
       setLoading(false);
       dispatch(
         unSubmit({
@@ -87,7 +80,7 @@ export default function EvaluationDetails({ match, history }) {
           ),
         })
       );
-      return history.push(`/dashboard/create-response/${evaluation._id}`);
+      return history.push(`/create-response/${evaluation?._id}`);
     } catch (error) {
       setLoading(false);
       return console.log(error);

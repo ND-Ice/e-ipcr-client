@@ -105,7 +105,7 @@ export default function Confirmation({ files, id }) {
           penColor="black"
           ref={sigPadRef}
           canvasProps={{
-            width: 450,
+            width: 750,
             height: 200,
             className: "sigCanvas",
             border: "2px solid black",
